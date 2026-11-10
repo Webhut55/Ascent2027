@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8fafc">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ascent 2027">
+<title>Ascent — 2027 Tracker</title>
+<link rel="icon" id="app-favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f0fdfa' stroke='%2399f6e4' stroke-width='2'/%3E%3Ccircle cx='44' cy='20' r='7' fill='%23fde047'/%3E%3Cpolygon points='12,48 29,18 46,48' fill='%230d9488'/%3E%3Cpolygon points='28,48 41,26 53,48' fill='%232dd4bf'/%3E%3C/svg%3E">
+<link rel="manifest" id="pwa-manifest-link" href="site.webmanifest">
+<style>
+:root, :root[data-theme="light"], :root[data-palette="mint"] {
+  --bg: #f8fafc;
+  --bg-soft: #f1f5f9;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --ink-soft: #334155;
+  --mut: #64748b;
+  --ln: #e2e8f0;
+  --ln-strong: #cbd5e1;
+  --hd: #f1f5f9;
+  --acc: #0d9488;
+  --acc-soft: #f0fdfa;
+  --acc-ln: #99f6e4;
+  --acc-ink: #0f766e;
+  --on: #dcfce7;
+  --onk: #15803d;
+  --on-ln: #86efac;
+  --td: #fef9c3;
+  --td-ink: #854d0e;
+  --warn: #fffbeb;
+  --warn-ink: #b45309;
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+:root[data-palette="sky"] {
+  --bg: #f4f8fb;
+  --bg-soft: #e8f1f8;
+  --hd: #edf4fa;
+  --acc: #0284c7;
+  --acc-soft: #f0f9ff;
+  --acc-ln: #bae6fd;
+  --acc-ink: #0369a1;
+  --on: #e0f2fe;
+  --onk: #0369a1;
+  --on-ln: #7dd3fc;
+}
+:root[data-palette="sand"] {
+  --bg: #faf8f5;
+  --bg-soft: #f3efe8;
+  --hd: #f4f0ea;
+  --ln: #e6e0d6;
+  --ln-strong: #d5ccc0;
+  --acc: #0f766e;
+  --acc-soft: #f0fdfa;
+  --acc-ln: #99f6e4;
+  --acc-ink: #115e59;
+  --on: #d1fae5;
+  --onk: #065f46;
+  --on-ln: #6ee7b7;
+}
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.5 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 78px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header & Top System Bar */
+.top {
+  background: var(--card);
+  border-bottom: 1px solid var(--ln);
+  padding: 10px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-ln);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.top h1 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.top .s {
+  color: var(--mut);
+  font-size: 12px;
+}
+
+/* Clean Search Bar (No Install Button Inside) */
+.omnibox-bar {
+  flex: 1;
+  min-width: 220px;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1.5px solid var(--ln-strong);
+  border-radius: 999px;
+  padding: 4px 10px 4px 12px;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+.omnibox-bar:focus-within {
+  background: var(--card);
+  border-color: var(--acc);
+  box-shadow: 0 0 0 3px var(--acc-soft);
+}
+.omnibox-icon {
+  color: var(--mut);
+  font-size: 13px;
+  flex-shrink: 0;
+  user-select: none;
+}
+.omnibox-bar input {
+  border: 0 !important;
+  background: transparent !important;
+  padding: 4px 2px !important;
+  font-size: 13px;
+  color: var(--ink);
+  flex: 1;
+  min-width: 80px;
+  outline: none !important;
+}
+.omnibox-clear {
+  border: 0;
+  background: transparent;
+  color: var(--mut);
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 14px;
+  border-radius: 999px;
+}
+.omnibox-clear:hover {
+  background: var(--ln);
+  color: var(--ink);
+}
+
+.top-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.status-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pill-stat {
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.pill-stat b {
+  color: var(--acc-ink);
+  font-weight: 700;
+}
+.cd {
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-ln);
+  padding: 5px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.cd b {
+  color: var(--acc-ink);
+  font-size: 17px;
+  font-weight: 800;
+}
+.sys-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.btn-sys {
+  border: 1px solid var(--ln);
+  background: var(--card);
+  color: var(--ink-soft);
+  border-radius: 8px;
+  padding: 6px 11px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+.btn-sys:hover {
+  background: var(--bg);
+  border-color: var(--ln-strong);
+  color: var(--ink);
+}
+.btn-sys.pri {
+  background: var(--acc-soft);
+  border-color: var(--acc-ln);
+  color: var(--acc-ink);
+}
+.btn-sys.pri:hover {
+  background: #ccfbf1;
+}
+
+/* Month & Filter Toolbar */
+.fx {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 18px;
+  background: var(--card);
+  border-bottom: 1px solid var(--ln);
+  flex-wrap: wrap;
+}
+.fx-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fx button, .btn {
+  border: 1px solid var(--ln);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.fx button:hover, .btn:hover {
+  background: var(--bg);
+  border-color: var(--ln-strong);
+}
+.btn.pri {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #ffffff;
+  font-weight: 600;
+}
+.btn.pri:hover {
+  opacity: 0.92;
+}
+.fx b {
+  min-width: 145px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink);
+}
+.cat-pills {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.cat-pill {
+  border: 1px solid var(--ln);
+  background: var(--bg);
+  color: var(--mut);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cat-pill.on {
+  background: var(--acc-soft);
+  border-color: var(--acc-ln);
+  color: var(--acc-ink);
+}
+.hide {
+  display: none !important;
+}
+
+/* Main View Container */
+#view {
+  padding: 16px 18px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Today / Tomorrow Quick Cockpit Card */
+.cockpit {
+  background: var(--card);
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.cockpit-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.cockpit-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cockpit-title h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.badge-light {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--acc-soft);
+  color: var(--acc-ink);
+  border: 1px solid var(--acc-ln);
+}
+.badge-warn {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--td);
+  color: var(--td-ink);
+  border: 1px solid #fde047;
+}
+.today-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.td-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--ln);
+  background: var(--bg);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.12s ease;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+}
+.td-item:hover {
+  border-color: var(--ln-strong);
+  background: var(--card);
+}
+.td-item.done {
+  background: var(--on);
+  border-color: var(--on-ln);
+  color: var(--onk);
+}
+.td-item.locked {
+  opacity: 0.65;
+  cursor: default;
+}
+.td-chk {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1.5px solid var(--ln-strong);
+  background: var(--card);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  flex-shrink: 0;
+  color: var(--onk);
+}
+.td-item.done .td-chk {
+  background: #ffffff;
+  border-color: var(--onk);
+}
+.td-lbl {
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  flex: 1;
+}
+.td-cat {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--mut);
+  border: 1px solid var(--ln);
+}
+.td-metrics {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--ln);
+}
+.td-metrics label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* Category Color Tags */
+.cat-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 5px;
+  margin-right: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cat-Faith { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.cat-Body { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+.cat-Study { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+.cat-Business { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.cat-Content { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+.cat-Discipline { background: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
+
+/* Tables & Spreadsheet Grid */
+.scroll {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.sh th, .sh td, .sh2 th, .sh2 td {
+  border: 1px solid var(--ln);
+  padding: 6px 8px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+.sh th, .sh2 th {
+  background: var(--hd);
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+}
+.sh th small {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--mut);
+}
+.sh .l {
+  position: sticky;
+  left: 0;
+  background: var(--card);
+  text-align: left;
+  min-width: 245px;
+  max-width: 245px;
+  z-index: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-right: 2px solid var(--ln);
+}
+.sh th.l {
+  background: var(--hd);
+  z-index: 3;
+}
+.sh tr:hover td.l {
+  background: var(--bg);
+}
+.sh tr.g td {
+  background: var(--bg-soft);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  color: var(--ink-soft);
+  padding: 6px 10px;
+}
+.sh td.c {
+  min-width: 34px;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 700;
+  color: transparent;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+.sh td.c:hover:not(.f) {
+  background: var(--acc-soft);
+}
+.sh td.c.on {
+  background: var(--on);
+  color: var(--onk);
+}
+.sh td.f {
+  cursor: default;
+  background: #fafafa;
+  opacity: 0.42;
+}
+.sh td.pre {
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 11px;
+  opacity: 0.65;
+}
+.sh .td {
+  background: var(--td);
+  color: var(--td-ink);
+}
+.sh td.c.on.td {
+  background: var(--on);
+  color: var(--onk);
+  box-shadow: inset 0 0 0 1.5px var(--onk);
+}
+.sh td.p {
+  text-align: center;
+  font-weight: 700;
+  min-width: 52px;
+  font-size: 12px;
+  background: var(--bg);
+}
+.sh td.s {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.sh tr.sum td {
+  border-top: 2px solid var(--ln-strong);
+  font-weight: 700;
+  background: var(--bg);
+}
+.sh td.m {
+  padding: 0;
+}
+.sh td.m input {
+  width: 100%;
+  min-width: 36px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: center;
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 2px;
+}
+.sh td.m input:focus {
+  outline: 2px solid var(--acc);
+  background: var(--acc-soft);
+}
+.stk-badge {
+  float: right;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--acc-ink);
+  background: var(--acc-soft);
+  border: 1px solid var(--acc-ln);
+  border-radius: 999px;
+  padding: 0 6px;
+  margin-left: 4px;
+}
+
+/* Inputs & Cards */
+input, select {
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--ln-strong);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font: inherit;
+}
+input:focus, select:focus {
+  outline: 2px solid var(--acc-ln);
+  border-color: var(--acc);
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.card h2, h3.t {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.kpi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.kpi div {
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+}
+.kpi b {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--acc-ink);
+}
+.kpi span {
+  font-size: 12px;
+  color: var(--mut);
+  font-weight: 500;
+}
+.pb {
+  height: 9px;
+  background: var(--bg-soft);
+  border: 1px solid var(--ln);
+  border-radius: 999px;
+  overflow: hidden;
+  min-width: 120px;
+}
+.pb i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--acc), #10b981);
+  border-radius: 999px;
+  transition: width 0.25s ease;
+}
+.sh2 td:first-child {
+  font-weight: 600;
+}
+.sh2 td.b {
+  color: var(--mut);
+  font-size: 12.5px;
+}
+.sh2 td.n {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.sh2 input[type=number] {
+  width: 125px;
+}
+.sh2 tr.now-row td {
+  background: var(--td);
+  color: var(--td-ink);
+  font-weight: 700;
+}
+.sh2 tr.next-row td {
+  background: var(--acc-soft);
+}
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.sub {
+  color: var(--mut);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* Plans Tab Layouts */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+.plan-box {
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.plan-box.active-day {
+  background: var(--acc-soft);
+  border-color: var(--acc);
+}
+.plan-box h3 {
+  margin: 0 0 8px;
+  font-size: 13.5px;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.plan-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.plan-list li {
+  margin-bottom: 5px;
+}
+.subj-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--card);
+  border: 1px solid var(--ln-strong);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 3px 4px 3px 0;
+  cursor: pointer;
+  user-select: none;
+}
+.subj-pill.done {
+  background: var(--on);
+  border-color: var(--on-ln);
+  color: var(--onk);
+}
+
+/* Heatmap & Visual Charts */
+.heat-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+.heat {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  max-width: 340px;
+  flex: 1;
+  min-width: 240px;
+}
+.heat div {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: var(--acc);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #064e3b;
+  position: relative;
+}
+.heat div.n {
+  background: var(--bg-soft);
+  border: 1px solid var(--ln);
+  color: var(--mut);
+  font-weight: 400;
+}
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+.rule-item {
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.rule-num {
+  background: var(--acc-soft);
+  color: var(--acc-ink);
+  border: 1px solid var(--acc-ln);
+  font-weight: 700;
+  font-size: 11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Bottom Navigation Bar (Light & Crisp) */
+.tabs {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--ln);
+  display: flex;
+  justify-content: center;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  gap: 8px;
+  z-index: 25;
+  overflow-x: auto;
+  box-shadow: 0 -2px 10px rgba(15, 23, 42, 0.04);
+}
+.tabs button {
+  border: 1px solid var(--ln);
+  background: var(--bg);
+  color: var(--ink-soft);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.tabs button:hover {
+  background: var(--card);
+  border-color: var(--ln-strong);
+  color: var(--ink);
+}
+.tabs button.on {
+  background: var(--acc-soft);
+  border-color: var(--acc);
+  color: var(--acc-ink);
+  box-shadow: 0 1px 2px rgba(13, 148, 136, 0.12);
+}
+.x {
+  border: 0;
+  background: none;
+  color: var(--mut);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.x:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Modals & Toast (Light Theme) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+.modal-card {
+  background: var(--card);
+  border: 1px solid var(--ln);
+  border-radius: 16px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.14);
+}
+.modal-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ln);
+}
+.modal-hd h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ink);
+}
+.step-box {
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.step-box h4 {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.url-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--ln-strong);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--acc-ink);
+  font-weight: 700;
+}
+.toast {
+  position: fixed;
+  bottom: 72px;
+  right: 18px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--acc-ln);
+  border-left: 4px solid var(--acc);
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 60;
+  transition: opacity 0.2s ease;
+}
+@media (max-width: 640px) {
+  .top { padding: 10px 12px; }
+  .fx { padding: 8px 12px; }
+  #view { padding: 12px; }
+  .sh .l { min-width: 185px; max-width: 185px; }
+  .omnibox-bar { max-width: 100%; order: 3; width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand-wrap">
+    <div class="brand-logo" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+    </div>
+    <div>
+      <h1>Ascent — 2027 Tracker</h1>
+      <div class="s">Routine, plans, goals and savings · target date 15 July 2027</div>
+    </div>
+  </div>
+
+  <!-- Clean App Search Bar (Install option removed as requested) -->
+  <div class="omnibox-bar" role="search">
+    <span class="omnibox-icon" aria-hidden="true">🔍</span>
+    <input type="search" id="app-search" placeholder="Search habits, routine, plans, goals..." aria-label="Search habits, routine, plans, goals">
+    <button type="button" id="btn-clear-search" class="omnibox-clear hide" title="Clear search">×</button>
+  </div>
+
+  <div class="top-right">
+    <div class="status-pills">
+      <span class="pill-stat" title="Active day completion">Status: <b id="td-score-pill">Starts Tomorrow</b></span>
+      <span class="pill-stat" title="Current 80%+ daily streak">Streak: <b id="top-streak-pill">0d</b></span>
+      <div class="cd"><b id="cd">–</b> <span class="s">days left</span></div>
+    </div>
+    <div class="sys-actions">
+      <select id="palette-sel" class="btn-sys" title="Light Color Palette" aria-label="Light Color Palette">
+        <option value="mint">☀️ Mint Light</option>
+        <option value="sky">🌤️ Sky Light</option>
+        <option value="sand">🌾 Warm Sand</option>
+      </select>
+      <button type="button" class="btn-sys" id="btn-backup">Data &amp; Backup</button>
+      <button type="button" class="btn-sys pri" id="btn-install-chrome">＋ Install in Chrome</button>
+    </div>
+  </div>
+</div>
+
+<div class="fx" id="mn">
+  <div class="fx-nav">
+    <button id="pv" title="Previous month">‹</button>
+    <b id="mt"></b>
+    <button id="nx" title="Next month">›</button>
+    <button type="button" id="btn-today" class="btn-sys">Today</button>
+    <button type="button" id="btn-toggle-cockpit" class="btn-sys">Quick Check-in</button>
+  </div>
+  <div class="cat-pills" id="cat-filters">
+    <button type="button" class="cat-pill on" data-cat="all">All (14)</button>
+    <button type="button" class="cat-pill" data-cat="Faith">Faith</button>
+    <button type="button" class="cat-pill" data-cat="Body">Body</button>
+    <button type="button" class="cat-pill" data-cat="Study">Study</button>
+    <button type="button" class="cat-pill" data-cat="Business">Business</button>
+    <button type="button" class="cat-pill" data-cat="Content">Content</button>
+    <button type="button" class="cat-pill" data-cat="Discipline">Discipline</button>
+  </div>
+</div>
+
+<div id="view"></div>
+
+<!-- Install in Chromebook / Chrome Modal -->
+<div id="modal-install" class="modal-backdrop hide" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-hd">
+      <h3>Install Ascent on Your Chromebook</h3>
+      <button type="button" class="x" data-close-modal="modal-install">×</button>
+    </div>
+
+    <div id="native-pwa-box" class="step-box hide" style="background:var(--acc-soft);border-color:var(--acc-ln)">
+      <h4>⚡ Instant 1-Click Chromebook Install Ready</h4>
+      <div class="sub" style="margin-bottom:8px">Chrome has verified the manifest &amp; service worker. Click below to install Ascent to your Chromebook Shelf:</div>
+      <button type="button" class="btn pri" id="btn-trigger-pwa">Install App Now</button>
+    </div>
+
+    <div class="step-box" style="background:var(--acc-soft);border-color:var(--acc-ln)">
+      <h4>Way 1: Install Using Your <code>sw.js</code>, <code>manifest.json</code> &amp; <code>background.js</code> Files</h4>
+      <div class="sub">
+        1. Open the <b>Files</b> app on your Chromebook and create a folder named <b><code>Ascent</code></b>.<br>
+        2. Put this HTML file, <b><code>manifest.json</code></b>, <b><code>background.js</code></b>, and <b><code>sw.js</code></b> inside that <b><code>Ascent</code></b> folder.<br>
+        3. Open Chrome, type <span class="url-pill">chrome://extensions</span> in the top address bar, and press <b>Enter</b>.<br>
+        4. Turn ON <b>Developer mode</b> (top-right switch), click <b>Load unpacked</b> (top-left), and select your <b><code>Ascent</code></b> folder.<br>
+        5. Type <b><code>ascent</code></b> + <b>Space</b> + <b>Enter</b> in Chrome's address bar (or click the 🧩 icon) to open Ascent as a standalone Chromebook window!
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button type="button" class="btn-sys pri" id="dl-ext-manifest">Download manifest.json</button>
+        <button type="button" class="btn-sys pri" id="dl-ext-bg">Download background.js</button>
+        <button type="button" class="btn-sys pri" id="dl-pwa-sw">Download sw.js</button>
+        <button type="button" class="btn-sys" id="btn-copy-ext-url">Copy chrome://extensions</button>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <h4>Way 2: Install Directly from Chrome Menu / Address Bar</h4>
+      <div class="sub">
+        Click the <b>⋮ (three dots)</b> menu at the top-right of Chrome → <b>Save and share</b> (or <b>More tools</b>) → click <b>Install page as app...</b> (or <b>Create shortcut... → check "Open as window"</b>).
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button type="button" class="btn-sys" id="dl-webmanifest">Download site.webmanifest (PWA)</button>
+        <button type="button" class="btn-sys" id="dl-win-bat">Download Windows Launcher (.bat)</button>
+        <button type="button" class="btn-sys" id="dl-mac-sh">Download Mac/Linux Launcher (.command)</button>
+      </div>
+    </div>
+
+    <div style="text-align:right;margin-top:12px">
+      <button type="button" class="btn" data-close-modal="modal-install">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Backup & Restore Modal -->
+<div id="modal-backup" class="modal-backdrop hide" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-hd">
+      <h3>System Data Backup, Export &amp; Restore</h3>
+      <button type="button" class="x" data-close-modal="modal-backup">×</button>
+    </div>
+    <div class="step-box">
+      <h4>Export Your Data</h4>
+      <div class="sub" style="margin-bottom:10px">Download a full JSON backup of all your habit logs, custom goals, targets, and savings entries, or export the current month's habit sheet as CSV:</div>
+      <div class="row">
+        <button type="button" class="btn pri" id="btn-export-json">Download Full Backup (.json)</button>
+        <button type="button" class="btn-sys" id="btn-export-csv">Export Current Month (.csv)</button>
+        <button type="button" class="btn-sys" id="btn-copy-json">Copy Backup JSON</button>
+      </div>
+    </div>
+    <div class="step-box">
+      <h4>Restore / Import Backup</h4>
+      <div class="sub" style="margin-bottom:10px">Select a previously exported <code>.json</code> backup file or paste backup JSON below to restore your history:</div>
+      <div class="row" style="margin-bottom:8px">
+        <input type="file" id="file-import-json" accept=".json,application/json" style="flex:1">
+      </div>
+      <div class="row">
+        <input type="text" id="paste-import-json" placeholder="Or paste backup JSON string here..." style="flex:1">
+        <button type="button" class="btn" id="btn-apply-paste">Restore JSON</button>
+      </div>
+    </div>
+    <div style="text-align:right;margin-top:12px">
+      <button type="button" class="btn" data-close-modal="modal-backup">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-box" class="toast hide"></div>
+
+<div class="tabs" id="tabs">
+  <button data-tab="trk">Tracker</button>
+  <button data-tab="plan">Routine</button>
+  <button data-tab="plans">Plans</button>
+  <button data-tab="goals">Goals</button>
+  <button data-tab="sav">Savings</button>
+  <button data-tab="stats">Stats</button>
+</div>
+
+<script>
+const H=[['fajr','Faith','Fajr prayer on time'],['pray','Faith','Other four prayers on time'],['quran','Faith','Quran and dhikr (15 min)'],
+['wake','Body','Wake up by 5:00'],['work','Body','Bodyweight workout (30 min)'],['skin','Body','Skincare morning and night'],
+['s1','Study','Study block 1'],['s2','Study','Study block 2'],['rev','Study','Revise the day’s school notes'],
+['wh','Business','webhut work'],['ct','Content','Content work (in daylight)'],
+['clean','Discipline','Clean day (self-control)'],['scr','Discipline','Phone out of bedroom, screens off by 9:30 pm'],['sl','Discipline','Asleep by 10:00 pm']];
+
+const P1=[['5:00','Wake, wudu, Fajr'],['5:20','Quran and dhikr (15 min), skincare'],['5:50','Leave for madrassa'],['6:00–7:30','Madrassa'],['7:30','Breakfast, get ready for school'],['8:30–4:45','School (revise in free minutes)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib'],['6:15','Bodyweight workout (30 min), shower'],['7:00','Dinner'],['7:30','Study block 1 (1 h 15 min)'],['8:45','Isha, webhut work (30 min)'],['9:15','Study block 2 (30 min revision)'],['9:45','Review, plan tomorrow, phone out of room'],['10:00','Sleep']];
+const P2=[['5:00','Wake, wudu, Fajr, Quran and dhikr'],['5:30','Bodyweight workout (30 min), shower, skincare'],['6:30','Study block 1 (1 h)'],['7:45','Breakfast, get ready'],['8:30–4:45','School (Jumu’ah prayer at midday)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, webhut work (1 h)'],['9:30','Review, plan tomorrow, phone out'],['10:00','Sleep']];
+const P3=[['5:00','Wake, wudu, Fajr, Quran and dhikr'],['5:20','Skincare, leave for madrassa'],['6:00–8:30','Madrassa'],['8:30','Quick breakfast, go to school'],['9:00–1:00','School'],['1:30','Dhuhr, lunch, rest'],['2:30','webhut work (1 h 30 min)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Bodyweight workout (30 min), shower'],['6:15','Maghrib, dinner'],['7:15','Study block 1 (1 h 30 min)'],['8:45','Isha, study block 2 (45 min)'],['9:30','Review, plan tomorrow, phone out'],['10:00','Sleep']];
+const P4=[['5:00','Wake, wudu, Fajr, Quran and dhikr'],['5:20','Skincare, leave for madrassa'],['6:00–8:30','Madrassa'],['8:45','Breakfast, rest'],['9:30','Study block 1 (2 h)'],['11:30','Weekend activity or workout (1 h), shower'],['12:30','Dhuhr, lunch, rest'],['2:00','webhut work (2 h)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Asr, free time'],['6:15','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, weekly review (score, wins, one change)'],['9:30','Phone out, plan the week'],['10:00','Sleep']];
+const SCH=[['Monday–Thursday: school and madrassa 6:00–7:30',P1],['Friday: school, no madrassa, no early class',P2],['Saturday: madrassa 6:00–8:30, school 9:00–1:00',P3],['Sunday: madrassa 6:00–8:30, then free',P4]];
+
+// 1. Custom Progressive Bodyweight Workout Plan (Mon to Sat + Warm-up & Cool-down)
+const WORKOUT_WARMUP=[
+  ['1 min','Neck rolls, big arm circles (forward & backward), wrist and ankle rotations'],
+  ['1.5 min','Hip circles, standing torso twists, and dynamic alternating toe-touches'],
+  ['1.5 min','Light jumping jacks and high knees in place (steady nasal breathing)'],
+  ['1 min','Activation: 10 slow deep bodyweight squats + 8 controlled incline/knee push-ups']
+];
+const WORKOUT_DAYS=[
+  ['Monday','Push Strength (Chest, Shoulders & Triceps)',[
+    'Standard Push-ups: 3 sets × 8–15 reps (or Knee/Incline if building form)',
+    'Pike Push-ups (Shoulder focus): 3 sets × 6–10 reps',
+    'Bed / Chair Edge Tricep Dips: 3 sets × 10–15 reps',
+    'Wide-Grip Push-ups: 2 sets × 10–12 reps',
+    'Plank Shoulder Taps: 3 sets × 30 sec (keep hips still)'
+  ]],
+  ['Tuesday','Legs & Lower-Body Power',[
+    'Bodyweight Squats (3-sec slow lowering): 4 sets × 15–20 reps',
+    'Reverse Lunges: 3 sets × 10–12 reps per leg',
+    'Glute Bridges (2-sec squeeze at top): 3 sets × 15–20 reps',
+    'Standing Calf Raises (slow pause at top): 3 sets × 20 reps',
+    'Wall Sit Isometric Hold: 2 sets × 45–60 sec'
+  ]],
+  ['Wednesday','Core Stability, Abs & Posture',[
+    'Forearm Plank Hold: 3 sets × 45–60 sec',
+    'Slow Bicycle Crunches: 3 sets × 15 reps per side',
+    'Lying Leg Raises (hands under lower back): 3 sets × 10–15 reps',
+    'Prone Superman Back Extensions (2-sec hold): 3 sets × 12–15 reps',
+    'Mountain Climbers: 3 sets × 35 sec'
+  ]],
+  ['Thursday','Upper-Body Volume & Back/Posture (No Equipment)',[
+    'Decline Push-ups (feet elevated on bed/chair): 3 sets × 8–12 reps',
+    'Prone Floor Lat Pull-downs (lie face down, slide elbows back & squeeze): 3 sets × 15 reps',
+    'Reverse Snow Angels (rear delts & posture): 3 sets × 12 slow reps',
+    'Diamond / Close-Grip Push-ups: 3 sets × 6–12 reps',
+    'Side Plank Hold: 2 sets × 30 sec each side'
+  ]],
+  ['Friday','Unilateral Legs & Conditioning',[
+    'Bulgarian Split Squats (rear foot on bed/chair): 3 sets × 8–12 reps per leg',
+    'Sumo Wide-Stance Squats: 3 sets × 15 reps',
+    'Jump Squats (or Fast Tempo Squats): 3 sets × 10–12 reps',
+    'Single-Leg Glute Bridges: 3 sets × 10 reps per leg',
+    'Clean Burpees (step-back or jump): 3 sets × 8–10 reps'
+  ]],
+  ['Saturday','Full-Body Progressive Circuit (4 Rounds · 45s rest between rounds)',[
+    '1) Push-ups (10–15 reps)',
+    '2) Bodyweight Squats (15–20 reps)',
+    '3) Prone Back Extensions (12 reps)',
+    '4) Alternating Forward/Reverse Lunges (10 per leg)',
+    '5) Forearm Plank Hold (45 sec)'
+  ]],
+  ['Sunday','Active Recovery & Mobility (Rest Day)',[
+    'Outdoor walk, light sport, or 15 min full-body stretching & foam/towel roll'
+  ]]
+];
+const WORKOUT_COOLDOWN=[
+  ['1 min','Doorframe / Wall Chest & Shoulder Stretch (30 sec each side)'],
+  ['1.5 min','Standing Quad Pull & Seated/Standing Hamstring Stretch'],
+  ['1.5 min','Cobra Stretch into Child’s Pose (decompresses spine & lower back)'],
+  ['1 min','Deep Nasal Box Breathing (4s inhale · 4s hold · 4s exhale) to lower heart rate']
+];
+
+// 2. Custom Study Plan (Exact Subjects Requested by User)
+const STUDY_PLAN=[
+  ['Monday',['SS','Maths','Physics','Lisan']],
+  ['Tuesday',['SS','Maths','Biology','Thafseer']],
+  ['Wednesday',['Chemistry','SS','Eng','Duroos']],
+  ['Thursday',['Hindi','SS','Malayalam 2nd','Fiqh']],
+  ['Friday',['Arabic','Maths','SS','Thafseer']],
+  ['Saturday',['Biology','Physics','Chemistry','Duroos']],
+  ['Sunday',['SS','Maths','Physics','Lisan']]
+];
+
+// 3. Zero-Rupee (₹0) Teenager Facecare Plan
+const FACECARE_PLAN=[
+  ['Morning (5:20 am · ₹0)','Wudu & Cool Water De-Puff',[
+    'Wash face with plain cool/lukewarm water during wudu and morning wash — removes overnight oil without damaging your skin barrier.',
+    'Never use harsh bath soap or body bar soap on your face (high pH dries skin and triggers rebound acne).',
+    'Pat dry gently with a dedicated clean face towel or air-dry (never rub harshly).',
+    '2-Min Wet-Finger Lymphatic Massage: While face is damp with clean water, glide fingers gently from chin along jawline to ears (10×) and outward under cheekbones (10×) to drain morning puffiness.'
+  ]],
+  ['Daytime & School (8:30 am – 6:45 pm · ₹0)','Protection, Hydration & Posture',[
+    'Strict Hands-Off Rule: Never rest your chin/cheeks on your hands at school and never squeeze or pick pimples (prevents bacteria transfer and dark scars).',
+    'Hydration Target: Drink 8–10 glasses (2.5L) of plain water spread across the day (1 glass on waking, steady sips at school, 1 around each prayer).',
+    'Immediate Post-Workout Rinse (6:45 pm): Rinse sweat off your face with cool water right after your 30-min bodyweight workout so dried sweat never clogs pores.',
+    'Nasal Breathing & Tongue Posture: Breathe through your nose with lips closed and rest your full tongue gently on the roof of your mouth for natural jawline definition.'
+  ]],
+  ['Night (9:30 pm – 10:00 pm · ₹0)','Night Cleanse & Sleep Repair',[
+    'Wash face thoroughly with plain cool water before bed to clear school dust, sweat, and pollution.',
+    'Pillowcase Flip & Wash Rule: Flip your pillow over on Wednesday and wash your pillowcase with regular home laundry every weekend (dirty pillowcases are a top cause of teen cheek breakouts).',
+    'Sleep by 10:00 pm on Your Back: Deep sleep between 10:00 pm and 2:00 am is when natural growth hormone repairs skin and under-eye tissue.'
+  ]],
+  ['Weekly Home Boosters (₹0 Kitchen Optional)','1–2× Per Week Using Home Basics',[
+    'Ice Cube Cloth Glide (Wed & Sun): Wrap 1 plain ice cube in a clean soft cotton cloth and glide gently over face for 45–60 sec to calm redness and tighten pores.',
+    'Plain Rice-Wash Water Splash (when rice is cooked at home): Save a little cooled water from rinsing rice, splash on face for 3–5 min, then rinse off with plain water.'
+  ]]
+];
+
+// 4. Webhut Work Plan (Aligned to Daily Routine Slots: 6.5 hrs/week)
+const WEBHUT_PLAN=[
+  ['Monday','8:45–9:15 pm (30 min)','Weekly Target & Lead List','Pick 1 main project/template for the week, clear messages, and write down 3 businesses or creators who need a clean website.'],
+  ['Tuesday','8:45–9:15 pm (30 min)','Wireframe & Hero Section','Build the HTML structure, navigation bar, and responsive hero section for the active Webhut project.'],
+  ['Wednesday','8:45–9:15 pm (30 min)','Core Sections & Clean UI','Code the main content cards, services/features grid, and light, high-contrast styling.'],
+  ['Thursday','8:45–9:15 pm (30 min)','Mobile Responsiveness & QA','Test on phone/tablet widths, check button interactions, and optimize fast loading.'],
+  ['Friday','8:30–9:30 pm (1 hr)','Live Preview & Outreach','Publish preview link (GitHub Pages/Netlify) and send 3 polite demo messages or portfolio updates.'],
+  ['Saturday','2:30–4:00 pm (1 h 30 min)','Deep Build Sprint','Focused coding block: build advanced interactive components, client revisions, or reusable Webhut starter templates.'],
+  ['Sunday','2:00–4:00 pm (2 hrs)','Ship, Portfolio & Review','Finalize and ship this week’s build, update your Webhut showcase, and log any project savings toward your MacBook/PC/iPhone goals.']
+];
+
+const NM={mac:'MacBook',pc:'Custom PC',iph:'iPhone Pro Max',gen:'General'};
+const DEF={mac:100000,pc:120000,iph:150000,inc:25000};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fm=x=>'₹'+Math.round(x).toLocaleString('en-IN');
+const pad=n=>String(n).padStart(2,'0');
+const key=(y,m,d)=>y+'-'+pad(m+1)+'-'+pad(d);
+const tk=()=>{const t=new Date();return key(t.getFullYear(),t.getMonth(),t.getDate())};
+const tmrwKey=()=>{const t=new Date();t.setDate(t.getDate()+1);return key(t.getFullYear(),t.getMonth(),t.getDate())};
+const back=n=>{const t=new Date();t.setDate(t.getDate()-n);return key(t.getFullYear(),t.getMonth(),t.getDate())};
+
+// Default start date is tomorrow (2026-11-11 or tomorrow relative to first launch) so today is skipped!
+const DEFAULT_START=tmrwKey();
+
+let S={days:{},goals:{},custom:[],sav:[],set:Object.assign({},DEF),palette:'mint',showCockpit:true,startDate:DEFAULT_START,studyDone:{}};
+try{
+  const r=localStorage.getItem('ascent_v1');
+  if(r){
+    const o=JSON.parse(r);
+    S=Object.assign(S,o);
+    S.set=Object.assign({},DEF,o.set||{});
+    S.sav=o.sav||[];
+    S.custom=o.custom||[];
+    S.goals=o.goals||{};
+    S.studyDone=o.studyDone||{};
+    if(!S.startDate || S.startDate<=tk()){
+      // Ensure start date is set to tomorrow if not explicitly started yet
+      if(!o.startDate) S.startDate=DEFAULT_START;
+    }
+  }
+}catch(e){}
+
+// Guarantee today is skipped if startDate wasn't set or equals today on initial setup
+if(!S.startDate || S.startDate<'2026-11-11'){
+  S.startDate=DEFAULT_START>'2026-11-11'?DEFAULT_START:'2026-11-11';
+}
+
+const save=()=>{
+  try{localStorage.setItem('ascent_v1',JSON.stringify(S))}catch(e){}
+  updateTopHeader();
+};
+
+const activeStart=()=>S.startDate||DEFAULT_START;
+const isPreStart=k=>k<activeStart();
+// Effective focus date: if today < startDate (today is skipped!), focus on tomorrow (activeStart())
+const focusDateKey=()=>tk()<activeStart()?activeStart():tk();
+
+let initDt=new Date(focusDateKey()+'T12:00:00');
+let Y=initDt.getFullYear(),M=initDt.getMonth(),tab='trk';
+let catFilter='all',savFilter='all',planFilter='all',subPlanTab='all',searchQuery='';
+let urgeStep=0,urgePushups=0;
+let focusTimer=null,focusSec=0,focusRunning=false;
+
+function showToast(msg){
+  const b=$('#toast-box');
+  if(!b)return;
+  b.textContent=msg;
+  b.classList.remove('hide');
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>b.classList.add('hide'),2800);
+}
+
+function applyPalette(p){
+  S.palette=p||'mint';
+  document.documentElement.setAttribute('data-palette',S.palette);
+  const sel=$('#palette-sel');
+  if(sel)sel.value=S.palette;
+}
+applyPalette(S.palette);
+
+const sc=k=>{
+  if(isPreStart(k))return null;
+  const d=S.days[k];
+  return d?H.filter(h=>d[h[0]]).length/H.length:null;
+};
+const streak=fn=>{
+  if(tk()<activeStart())return 0;
+  let i=fn(back(0))?0:1,c=0;
+  while(i<400&&!isPreStart(back(i))&&fn(back(i))){c++;i++}
+  return c;
+};
+const habitStreak=hid=>streak(k=>S.days[k]&&S.days[k][hid]);
+
+function activePastDays(maxDays){
+  const out=[];
+  for(let i=0;i<maxDays;i++){
+    const k=back(i);
+    if(!isPreStart(k)&&k<=tk())out.push(k);
+  }
+  return out;
+}
+
+function win(){
+  const days=activePastDays(30);
+  return Math.max(1,days.length);
+}
+function rate(ids){
+  const days=activePastDays(30);
+  if(!days.length)return 0;
+  let c=0;
+  days.forEach(k=>{const d=S.days[k];if(d)ids.forEach(x=>{if(d[x])c++})});
+  return c/(days.length*ids.length);
+}
+const saved=g=>S.sav.filter(e=>e.t!=='i'&&e.g===g).reduce((a,e)=>a+e.a,0);
+function lastFol(){const ks=Object.keys(S.days).filter(k=>S.days[k].fol!=null).sort();return ks.length?S.days[ks[ks.length-1]].fol:0}
+const cl=x=>Math.max(0,Math.min(1,x||0));
+
+function goalsAuto(){
+  const T=S.set,days14=activePastDays(14),days30=activePastDays(30);
+  let ok=0,lg=0,all=0;
+  days14.forEach(k=>{const d=S.days[k];if(d&&d.scr_h!=null){lg++;if(d.scr_h<=2)ok++}});
+  days30.forEach(k=>{all+=sc(k)||0});
+  const denom=Math.max(1,days30.length);
+  return [
+    ['Stronger faith and character',rate(['fajr','pray','quran']),'Fajr, other prayers and Quran, active 30-day window'],
+    ['Face and physique',rate(['work','skin','sl']),'Workout, skincare and sleep, active 30-day window'],
+    ['Webhut consistency',rate(['wh']),'Daily webhut work blocks completed'],
+    ['MacBook',cl(saved('mac')/T.mac),'Saved '+fm(saved('mac'))+' of '+fm(T.mac)],
+    ['Custom PC',cl(saved('pc')/T.pc),'Saved '+fm(saved('pc'))+' of '+fm(T.pc)],
+    ['iPhone Pro Max',cl(saved('iph')/T.iph),'Saved '+fm(saved('iph'))+' of '+fm(T.iph)],
+    ['Full A+ in SSLC',rate(['s1','s2','rev']),'Study blocks and revision, active 30-day window'],
+    ['100k+ followers',cl(lastFol()/100000),'Latest followers logged: '+lastFol().toLocaleString('en-IN')],
+    ['Self-control',cl(streak(x=>S.days[x]&&S.days[x].clean)/90),'Current clean streak vs a 90-day target'],
+    ['Lower screen time',lg?ok/lg:0,'Share of logged days (last 14) at 2 hours or less'],
+    ['A better lifestyle',days30.length?all/denom:0,'Average daily score across active days']
+  ];
+}
+
+function matchSearch(text){
+  if(!searchQuery)return true;
+  return String(text||'').toLowerCase().includes(searchQuery.toLowerCase());
+}
+
+function updateTopHeader(){
+  const t=tk(),st=activeStart();
+  const pill=$('#td-score-pill');
+  if(pill){
+    if(t<st){
+      pill.textContent='Starts Tomorrow ('+st.slice(8)+'/'+st.slice(5,7)+')';
+    }else{
+      const tdObj=S.days[t]||{};
+      const doneCount=H.filter(h=>tdObj[h[0]]).length;
+      const pct=Math.round(doneCount/H.length*100);
+      pill.textContent=doneCount+'/'+H.length+' ('+pct+'%)';
+    }
+  }
+  const sp=$('#top-streak-pill');
+  if(sp)sp.textContent=streak(x=>(sc(x)||0)>=.8)+'d';
+  const cd=$('#cd');
+  if(cd)cd.textContent=Math.max(0,Math.ceil((new Date(2027,6,15,12)-new Date())/864e5));
+}
+
+function getStudySubjectsForDateStr(dateStr){
+  const dt=new Date(dateStr+'T12:00:00');
+  const dw=dt.getDay(); // 0 Sun .. 6 Sat
+  const mapIdx=[6,0,1,2,3,4,5][dw];
+  return STUDY_PLAN[mapIdx];
+}
+
+function rCockpit(){
+  if(!S.showCockpit)return '';
+  const t=tk(),st=activeStart(),skipToday=t<st;
+  const targetK=skipToday?st:t;
+  const targetDt=new Date(targetK+'T12:00:00');
+  const tdObj=S.days[targetK]||{};
+  const doneCount=H.filter(h=>tdObj[h[0]]).length;
+  const pct=Math.round(doneCount/H.length*100);
+  const filteredH=H.filter(h=>(catFilter==='all'||h[1]===catFilter)&&(matchSearch(h[2])||matchSearch(h[1])));
+  const studyDay=getStudySubjectsForDateStr(targetK);
+
+  let items='';
+  filteredH.forEach(h=>{
+    const on=!!tdObj[h[0]];
+    items+='<button type="button" class="td-item'+(on?' done':'')+'" data-tdh="'+h[0]+'" data-tdk="'+targetK+'">'+
+      '<span class="td-chk">'+(on?'✓':'')+'</span>'+
+      '<span class="td-lbl">'+h[2]+'</span>'+
+      '<span class="td-cat cat-'+h[1]+'">'+h[1]+'</span>'+
+    '</button>';
+  });
+  const scrVal=tdObj.scr_h==null?'':tdObj.scr_h;
+  const folVal=tdObj.fol==null?'':tdObj.fol;
+  return '<div class="cockpit">'+
+    '<div class="cockpit-hd">'+
+      '<div class="cockpit-title">'+
+        '<h2>'+(skipToday?'🚀 Day 1 Starts Tomorrow: ':'Today’s Check-in: ')+targetDt.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'})+'</h2>'+
+        (skipToday?'<span class="badge-warn">Today Skipped · Starts Tomorrow 5:00 am</span>':'<span class="badge-light">'+doneCount+' of '+H.length+' completed · '+pct+'%</span>')+
+        '<span class="badge-light">📚 Study: '+studyDay[1].join(', ')+'</span>'+
+      '</div>'+
+      '<div class="row">'+
+        '<div class="pb" style="width:140px"><i style="width:'+pct+'%"></i></div>'+
+      '</div>'+
+    '</div>'+
+    (items?'<div class="today-grid">'+items+'</div>':'<div class="sub">No habits match your current search filter.</div>')+
+    '<div class="td-metrics">'+
+      '<label>📱 Screen time (hours): <input type="number" min="0" step="0.1" data-f="scr_h" data-k="'+targetK+'" value="'+scrVal+'" placeholder="e.g. 1.5" style="width:95px"></label>'+
+      '<label>👥 Followers (total): <input type="number" min="0" step="1" data-f="fol" data-k="'+targetK+'" value="'+folVal+'" placeholder="e.g. 12500" style="width:115px"></label>'+
+      '<span class="sub" style="margin-left:auto">Start date: <b>'+st+'</b> (Today is skipped)</span>'+
+    '</div>'+
+  '</div>';
+}
+
+function rTrk(){
+  const n=new Date(Y,M+1,0).getDate(),t=tk(),st=activeStart(),fKey=focusDateKey();
+  let el=0,hd='<tr><th class="l">Habit</th>';
+  for(let d=1;d<=n;d++){
+    const k=key(Y,M,d);
+    if(k>=st && k<=t)el++;
+    const isFocus=(k===fKey);
+    hd+='<th'+(isFocus?' class="td" title="Start / Active Day"':'')+'>'+d+'<small>'+'SMTWTFS'[new Date(Y,M,d).getDay()]+'</small></th>';
+  }
+  hd+='<th>%</th></tr>';
+  let b='',g='';
+  const visibleH=H.filter(h=>(catFilter==='all'||h[1]===catFilter)&&(matchSearch(h[2])||matchSearch(h[1])));
+  visibleH.forEach(h=>{
+    if(h[1]!==g){
+      g=h[1];
+      b+='<tr class="g"><td class="l"><span class="cat-tag cat-'+g+'">'+g+'</span>'+g.toUpperCase()+'</td><td colspan="'+(n+1)+'"></td></tr>';
+    }
+    const hStk=habitStreak(h[0]);
+    let r='<tr><td class="l" title="'+esc(h[2])+'">'+(hStk>0?'<span class="stk-badge" title="Current streak">🔥 '+hStk+'d</span>':'')+h[2]+'</td>',c=0;
+    for(let d=1;d<=n;d++){
+      const k=key(Y,M,d),pre=isPreStart(k),fut=k>fKey,on=!pre&&S.days[k]&&S.days[k][h[0]];
+      if(on && k>=st)c++;
+      if(pre){
+        r+='<td class="c f pre" title="Skipped (System starts '+st+')">–</td>';
+      }else{
+        r+='<td class="c'+(on?' on':'')+(fut?' f':'')+(k===fKey?' td':'')+'" data-h="'+h[0]+'" data-k="'+k+'">'+(on?'✓':'')+'</td>';
+      }
+    }
+    const denom=Math.max(1,el);
+    b+=r+'<td class="p">'+(el?Math.round(c/denom*100):0)+'%</td></tr>';
+  });
+  let sr='<tr class="sum"><td class="l">Daily score (%)</td>';
+  for(let d=1;d<=n;d++){
+    const k=key(Y,M,d);
+    if(isPreStart(k)){
+      sr+='<td class="s" title="Skipped">–</td>';
+    }else{
+      const s=sc(k);
+      sr+='<td class="s">'+(s==null?'':Math.round(s*100))+'</td>';
+    }
+  }
+  sr+='<td></td></tr>';
+  const mr=(lb,f,stepVal)=>{
+    let r='<tr><td class="l">'+lb+'</td>';
+    for(let d=1;d<=n;d++){
+      const k=key(Y,M,d),pre=isPreStart(k),fut=k>fKey,v=S.days[k]&&S.days[k][f];
+      r+='<td class="m"><input type="number" min="0" step="'+stepVal+'" data-f="'+f+'" data-k="'+k+'" value="'+(pre||v==null?'':v)+'"'+((pre||fut)?' disabled':'')+' placeholder="'+(pre?'–':'')+'"></td>';
+    }
+    return r+'<td></td></tr>';
+  };
+  return rCockpit()+
+    '<div class="scroll" id="sc"><table class="sh"><thead>'+hd+'</thead><tbody>'+b+sr+
+    '<tr class="g"><td class="l">METRICS</td><td colspan="'+(n+1)+'"></td></tr>'+
+    mr('Screen time (hours)','scr_h','0.1')+
+    mr('Followers (total)','fol','1')+
+    '</tbody></table></div>'+
+    '<div class="sub" style="margin-top:10px">Today and earlier dates are skipped (`–`). Tracking begins from tomorrow (<b>'+st+'</b>) onwards. Everything saves automatically in this browser.</div>';
+}
+
+function getScheduleIdxForDate(dt){
+  const dw=dt.getDay();
+  if(dw>=1&&dw<=4)return 0;
+  if(dw===5)return 1;
+  if(dw===6)return 2;
+  return 3;
+}
+
+function parseSlotMinutes(slotStr, rowIdx){
+  const firstPart=slotStr.split('–')[0].trim();
+  const m=firstPart.match(/^(\d+):(\d+)$/);
+  if(!m)return 0;
+  let hh=parseInt(m[1],10),mm=parseInt(m[2],10);
+  if(rowIdx>=4 && hh>=1 && hh<=10 && !(rowIdx<=5 && hh>=8 && hh<=11)){
+    hh+=12;
+  }
+  return hh*60+mm;
+}
+
+function getActiveBlockInfo(rows){
+  const now=new Date();
+  const curMin=now.getHours()*60+now.getMinutes();
+  const starts=rows.map((r,i)=>parseSlotMinutes(r[0],i));
+  let curIdx=-1;
+  for(let i=0;i<starts.length;i++){
+    const nextStart=(i+1<starts.length)?starts[i+1]:(22*60+30);
+    if(curMin>=starts[i]&&curMin<nextStart){curIdx=i;break;}
+  }
+  return {curIdx, nextIdx: curIdx>=0 && curIdx+1<rows.length ? curIdx+1 : (curMin<starts[0]?0:-1)};
+}
+
+function formatTimer(sec){
+  const m=Math.floor(sec/60),s=sec%60;
+  return pad(m)+':'+pad(s);
+}
+
+function rPlan(){
+  const fKey=focusDateKey();
+  const fDt=new Date(fKey+'T12:00:00');
+  const tdIdx=getScheduleIdxForDate(fDt);
+  const tdSch=SCH[tdIdx];
+  const skipToday=tk()<activeStart();
+  const info=skipToday?{curIdx:0,nextIdx:1}:getActiveBlockInfo(tdSch[1]);
+  const nowBlock=info.curIdx>=0?tdSch[1][info.curIdx]:null;
+  const nextBlock=info.nextIdx>=0?tdSch[1][info.nextIdx]:null;
+
+  let banner='<div class="card" style="background:var(--acc-soft);border-color:var(--acc-ln)">'+
+    '<h2><span>⏱️ '+(skipToday?'Tomorrow’s Starting Routine':'Live Routine Guide')+' · '+tdSch[0]+'</span><span class="badge-light">'+(skipToday?'Starts Tomorrow 5:00 am':'Active Schedule')+'</span></h2>'+
+    '<div class="kpi">'+
+      '<div style="background:var(--card);text-align:left"><span class="sub">'+(skipToday?'FIRST BLOCK TOMORROW':'ACTIVE BLOCK NOW')+'</span><b style="font-size:16px;margin-top:3px">'+(nowBlock?nowBlock[0]+' — '+nowBlock[1]:'5:00 — Wake, wudu, Fajr')+'</b></div>'+
+      '<div style="background:var(--card);text-align:left"><span class="sub">FOLLOWING BLOCK</span><b style="font-size:16px;margin-top:3px;color:var(--ink)">'+(nextBlock?nextBlock[0]+' — '+nextBlock[1]:'5:20 — Quran and dhikr')+'</b></div>'+
+      '<div style="background:var(--card);text-align:left"><span class="sub">BLOCK FOCUS TIMER</span>'+
+        '<div class="row" style="margin-top:4px">'+
+          '<b id="timer-readout" style="font-size:18px;min-width:56px">'+(focusSec>0?formatTimer(focusSec):'15:00')+'</b>'+
+          '<button type="button" class="btn-sys" data-tmr="900">15m</button>'+
+          '<button type="button" class="btn-sys" data-tmr="1800">30m</button>'+
+          '<button type="button" class="btn-sys" data-tmr="2700">45m</button>'+
+          '<button type="button" class="btn-sys pri" id="btn-tmr-toggle">'+(focusRunning?'Pause':'Start')+'</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+
+  let filterBar='<div class="row" style="margin-bottom:12px">'+
+    '<button type="button" class="cat-pill'+(planFilter==='all'?' on':'')+'" data-pf="all">All Days (4)</button>'+
+    '<button type="button" class="cat-pill'+(planFilter==='today'?' on':'')+'" data-pf="today">'+(skipToday?'Tomorrow’s Schedule':'Today Only')+'</button>'+
+    SCH.map((s,i)=>'<button type="button" class="cat-pill'+(planFilter===String(i)?' on':'')+'" data-pf="'+i+'">'+s[0].split(':')[0]+'</button>').join('')+
+  '</div>';
+
+  const cards=SCH.map((s,idx)=>{
+    if(planFilter==='today'&&idx!==tdIdx)return '';
+    if(planFilter!=='all'&&planFilter!=='today'&&String(idx)!==planFilter)return '';
+    const isTd=idx===tdIdx;
+    const act=isTd?info:{curIdx:-1,nextIdx:-1};
+    const rowsHtml=s[1].map((r,ri)=>{
+      if(!matchSearch(r[0])&&!matchSearch(r[1])&&!matchSearch(s[0]))return '';
+      const isNow=act.curIdx===ri,isNext=act.nextIdx===ri;
+      return '<tr class="'+(isNow?'now-row':(isNext?'next-row':''))+'">'+
+        '<td>'+r[0]+'</td>'+
+        '<td>'+r[1]+'</td>'+
+        '<td style="text-align:center;font-size:11px;font-weight:700">'+(isNow?(skipToday?'START':'● NOW'):(isNext?'NEXT ›':''))+'</td>'+
+      '</tr>';
+    }).join('');
+    if(!rowsHtml)return '';
+    return '<div class="card"'+(isTd?' style="border-color:var(--acc)"':'')+'>'+
+      '<h2><span>'+s[0]+'</span>'+(isTd?'<span class="badge-light">'+(skipToday?'Tomorrow’s Schedule':'Active Schedule')+'</span>':'')+'</h2>'+
+      '<div class="scroll"><table class="sh2"><thead><tr><th style="width:125px">Time</th><th style="text-align:left">Block</th><th style="width:90px">Status</th></tr></thead><tbody>'+
+      rowsHtml+
+      '</tbody></table></div></div>';
+  }).join('');
+
+  const rulesList=[
+    'Phone charges outside the bedroom.',
+    'No screens in the first hour after waking.',
+    'Content work is done in daylight, evening is best.',
+    'Social apps only inside the content block.',
+    'Never miss twice.',
+    'Urge protocol: stand up, leave the room, make wudu or go outside, do 20 push-ups, then start the next task.'
+  ];
+  const urgeLabels=[
+    '1. Stand up & leave the room immediately',
+    '2. Make wudu or step outside for fresh air',
+    '3. Complete 20 push-ups ('+urgePushups+'/20 done)',
+    '4. Open your next scheduled task & begin'
+  ];
+
+  return banner+filterBar+cards+
+    '<div class="card"><h2><span>Rules</span><span class="badge-light">6 Core Commitments</span></h2>'+
+      '<div class="sub" style="margin-bottom:10px">1) Phone charges outside the bedroom. 2) No screens in the first hour after waking. 3) Content work is done in daylight, evening is best. 4) Social apps only inside the content block. 5) Never miss twice. 6) Urge protocol: stand up, leave the room, make wudu or go outside, do 20 push-ups, then start the next task.</div>'+
+      '<div class="rules-grid">'+rulesList.map((rl,i)=>'<div class="rule-item"><span class="rule-num">'+(i+1)+'</span><span>'+rl+'</span></div>').join('')+'</div>'+
+      '<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--ln)">'+
+        '<div class="row" style="justify-content:space-between">'+
+          '<div><b style="font-size:13px">🛡️ Rule #6 Interactive Urge Protocol</b> <span class="sub">· Step '+(urgeStep+1)+' of 4: '+urgeLabels[urgeStep]+'</span></div>'+
+          '<div class="row">'+
+            '<button type="button" class="btn-sys pri" id="btn-urge-push">+5 Push-ups ('+urgePushups+'/20)</button>'+
+            '<button type="button" class="btn-sys" id="btn-urge-next">Next Protocol Step ›</button>'+
+            '<button type="button" class="btn-sys" id="btn-urge-reset">Reset</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+}
+
+function rPlans(){
+  const fKey=focusDateKey();
+  const fDt=new Date(fKey+'T12:00:00');
+  const skipToday=tk()<activeStart();
+  const dw=fDt.getDay(); // 0 Sun .. 6 Sat
+  const dayIdx=[6,0,1,2,3,4,5][dw]; // 0 Mon .. 6 Sun
+  const dayLabel=skipToday?'Tomorrow ('+STUDY_PLAN[dayIdx][0]+')':'Today ('+STUDY_PLAN[dayIdx][0]+')';
+
+  let nav='<div class="row" style="margin-bottom:14px">'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='all'?' on':'')+'" data-spt="all">All 4 Plans</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='workout'?' on':'')+'" data-spt="workout">1. Workout Plan (Mon–Sat)</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='study'?' on':'')+'" data-spt="study">2. Study Plan (Mon–Sun)</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='face'?' on':'')+'" data-spt="face">3. Facecare Plan (₹0)</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='webhut'?' on':'')+'" data-spt="webhut">4. Webhut Work Plan</button>'+
+    '<span class="badge-warn" style="margin-left:auto">Starts Tomorrow ('+activeStart()+') · Today Skipped</span>'+
+  '</div>';
+
+  // Section 1: Workout Plan
+  let secWorkout='';
+  if(subPlanTab==='all'||subPlanTab==='workout'){
+    secWorkout='<div class="card">'+
+      '<h2><span>1. Bodyweight Workout Plan (Mon to Sat · 30 Min · Progressive)</span><span class="badge-light">Active Focus: '+dayLabel+'</span></h2>'+
+      '<div class="plan-grid" style="margin-bottom:12px">'+
+        '<div class="plan-box" style="background:#f0fdf4;border-color:#bbf7d0">'+
+          '<h3><span>🔥 Warm-up (5 Min — Before Every Session)</span><span class="badge-light">Mandatory</span></h3>'+
+          '<ul class="plan-list">'+WORKOUT_WARMUP.map(w=>'<li><b>'+w[0]+':</b> '+w[1]+'</li>').join('')+'</ul>'+
+        '</div>'+
+        '<div class="plan-box" style="background:#f0f9ff;border-color:#bae6fd">'+
+          '<h3><span>❄️ Cool-down (5 Min — After Every Session)</span><span class="badge-light">Recovery</span></h3>'+
+          '<ul class="plan-list">'+WORKOUT_COOLDOWN.map(c=>'<li><b>'+c[0]+':</b> '+c[1]+'</li>').join('')+'</ul>'+
+        '</div>'+
+      '</div>'+
+      '<div class="plan-grid">'+
+        WORKOUT_DAYS.filter(d=>matchSearch(d[0])||matchSearch(d[1])||d[2].some(x=>matchSearch(x))).map((d,i)=>{
+          const isAct=i===dayIdx;
+          return '<div class="plan-box'+(isAct?' active-day':'')+'">'+
+            '<h3><span>'+d[0]+' · '+d[1]+'</span>'+(isAct?'<span class="badge-warn">'+(skipToday?'Tomorrow':'Today')+'</span>':'')+'</h3>'+
+            '<ul class="plan-list">'+d[2].map(ex=>'<li>'+ex+'</li>').join('')+'</ul>'+
+          '</div>';
+        }).join('')+
+      '</div>'+
+      '<div class="sub" style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--ln)">'+
+        '<b>📈 Progressive Rule (No Equipment):</b> Week 1–3 master clean form at base reps (60s rest). Each week add <b>+2 reps per set</b>. Once you reach the top of the rep range, slow down the lowering phase to <b>3 seconds down, 1 second pause</b>, or move to the harder variation.'+
+      '</div>'+
+    '</div>';
+  }
+
+  // Section 2: Study Plan
+  let secStudy='';
+  if(subPlanTab==='all'||subPlanTab==='study'){
+    const doneMap=S.studyDone[fKey]||{};
+    secStudy='<div class="card">'+
+      '<h2><span>2. Daily Study Plan (SSLC + Madrassa · Mon to Sun)</span><span class="badge-light">Click a subject on '+dayLabel+' to mark done</span></h2>'+
+      '<div class="scroll"><table class="sh2"><thead><tr><th style="width:120px;text-align:left">Day</th><th style="text-align:left">Subjects (Study Block 1, Block 2 &amp; Revision)</th><th style="width:140px">Schedule Slot</th></tr></thead><tbody>'+
+      STUDY_PLAN.filter(r=>matchSearch(r[0])||r[1].some(s=>matchSearch(s))).map((r,i)=>{
+        const isAct=i===dayIdx;
+        const pills=r[1].map(subj=>{
+          const k=r[0]+':'+subj;
+          const isDone=isAct && !!doneMap[k];
+          return '<button type="button" class="subj-pill'+(isDone?' done':'')+'" data-subj="'+esc(k)+'" data-sdate="'+fKey+'">'+(isDone?'✓ ':'')+subj+'</button>';
+        }).join('');
+        return '<tr class="'+(isAct?'now-row':'')+'">'+
+          '<td>'+r[0]+(isAct?' <span class="badge-warn" style="font-size:10px">'+(skipToday?'Tomorrow':'Today')+'</span>':'')+'</td>'+
+          '<td>'+pills+'</td>'+
+          '<td class="b">Block 1 + Block 2</td>'+
+        '</tr>';
+      }).join('')+
+      '</tbody></table></div>'+
+      '<div class="sub" style="margin-top:8px"><b>How to split your 4 daily subjects:</b> Cover Subject 1 &amp; Subject 2 during <b>Study block 1</b> (main deep study), Subject 3 during <b>Study block 2</b>, and your Madrassa subject (<i>Lisan / Thafseer / Duroos / Fiqh</i>) during morning/evening revision.</div>'+
+    '</div>';
+  }
+
+  // Section 3: Facecare Plan (₹0 Teenager Plan)
+  let secFace='';
+  if(subPlanTab==='all'||subPlanTab==='face'){
+    secFace='<div class="card">'+
+      '<h2><span>3. Teenager Facecare Plan (₹0 · Zero Cost · Natural Habits Only)</span><span class="badge-light">100% Free</span></h2>'+
+      '<div class="plan-grid">'+
+        FACECARE_PLAN.filter(p=>matchSearch(p[0])||matchSearch(p[1])||p[2].some(x=>matchSearch(x))).map(p=>
+          '<div class="plan-box">'+
+            '<h3><span>'+p[0]+'</span><span class="badge-light">'+p[1]+'</span></h3>'+
+            '<ul class="plan-list">'+p[2].map(item=>'<li>'+item+'</li>').join('')+'</ul>'+
+          '</div>'
+        ).join('')+
+      '</div>'+
+    '</div>';
+  }
+
+  // Section 4: Webhut Work Plan
+  let secWebhut='';
+  if(subPlanTab==='all'||subPlanTab==='webhut'){
+    secWebhut='<div class="card">'+
+      '<h2><span>4. Webhut Work Plan (Student Schedule · 6.5 Hours/Week)</span><span class="badge-light">Consistent Output</span></h2>'+
+      '<div class="scroll"><table class="sh2"><thead><tr><th style="width:110px;text-align:left">Day</th><th style="width:155px">Routine Slot</th><th style="width:190px;text-align:left">Focus Theme</th><th style="text-align:left">Action Deliverable</th></tr></thead><tbody>'+
+      WEBHUT_PLAN.filter(w=>matchSearch(w[0])||matchSearch(w[2])||matchSearch(w[3])).map((w,i)=>{
+        const isAct=i===dayIdx;
+        return '<tr class="'+(isAct?'now-row':'')+'">'+
+          '<td>'+w[0]+(isAct?' <span class="badge-warn" style="font-size:10px">'+(skipToday?'Tomorrow':'Today')+'</span>':'')+'</td>'+
+          '<td class="n" style="text-align:center">'+w[1]+'</td>'+
+          '<td><b>'+w[2]+'</b></td>'+
+          '<td class="b" style="color:var(--ink-soft)">'+w[3]+'</td>'+
+        '</tr>';
+      }).join('')+
+      '</tbody></table></div>'+
+    '</div>';
+  }
+
+  return nav+secWorkout+secStudy+secFace+secWebhut;
+}
+
+function rGoals(){
+  const L=goalsAuto(),o=L.reduce((a,g)=>a+g[1],0)/L.length,days=Math.max(0,Math.ceil((new Date(2027,6,15,12)-new Date())/864e5));
+  let h='<div class="card"><div class="kpi"><div><b>'+Math.round(o*100)+'%</b><span>overall progress</span></div><div><b>'+days+'</b><span>days left</span></div><div><b>'+fm(S.sav.filter(e=>e.t!=='i').reduce((a,e)=>a+e.a,0))+'</b><span>total saved</span></div></div></div>';
+  h+='<div class="scroll"><table class="sh2"><thead><tr><th style="text-align:left">Goal</th><th>Progress</th><th>%</th><th style="text-align:left">How it is measured</th></tr></thead><tbody>';
+  L.filter(g=>matchSearch(g[0])||matchSearch(g[2])).forEach(g=>{
+    const p=Math.round(g[1]*100);
+    h+='<tr><td>'+g[0]+'</td><td><div class="pb"><i style="width:'+p+'%"></i></div></td><td class="n">'+p+'%</td><td class="b">'+g[2]+'</td></tr>';
+  });
+  S.custom.forEach((c,idx)=>{
+    if(!matchSearch(c[1]))return;
+    const p=S.goals[c[0]]||0;
+    h+='<tr><td>'+esc(c[1])+'</td><td><input type="range" min="0" max="100" step="5" value="'+p+'" data-cg="'+c[0]+'" style="width:100%"></td><td class="n">'+p+'%</td><td class="b">Manual goal <button type="button" class="x" data-del-cg="'+idx+'" title="Delete manual goal" style="float:right">×</button></td></tr>';
+  });
+  return h+'</tbody></table></div><div class="card" style="margin-top:12px"><h2>Add a manual goal</h2><div class="row"><input type="text" id="gn" placeholder="Goal name" style="flex:1;min-width:180px"><button class="btn pri" id="ga">Add</button></div><div class="sub" style="margin-top:8px">Progress for the main goals is calculated automatically from your habit marks, metrics and savings (starting tomorrow).</div></div>';
+}
+
+function rSav(){
+  // Monthly income removed from Savings tab as requested (Student mode)
+  const T=S.set;
+  const daysLeft=Math.max(1,Math.ceil((new Date(2027,6,15,12)-new Date())/864e5));
+  const monthsLeft=Math.max(1,(daysLeft/30.44));
+  const totalTarget=T.mac+T.pc+T.iph;
+  const totalSavedGoals=saved('mac')+saved('pc')+saved('iph');
+  const remAll=Math.max(0,totalTarget-totalSavedGoals);
+
+  let h='<div class="card"><h2><span>Student Savings Targets (edit to your real prices)</span><span class="badge-light">Pace needed: '+fm(remAll/monthsLeft)+'/mo ('+fm(remAll/daysLeft)+'/day)</span></h2><div class="row">';
+  [['mac','MacBook'],['pc','Custom PC'],['iph','iPhone Pro Max']].forEach(x=>{
+    h+='<label class="sub" style="flex:1;min-width:150px">'+x[1]+'<br><input type="number" min="0" data-set="'+x[0]+'" value="'+T[x[0]]+'" style="width:100%;margin-top:4px"></label>';
+  });
+  h+='</div></div>';
+
+  h+='<div class="card"><h2>Add a saving entry</h2><div class="row">'+
+    '<input type="date" id="sd" value="'+focusDateKey()+'">'+
+    '<input type="hidden" id="st" value="s">'+
+    '<select id="sg">'+Object.keys(NM).map(k=>'<option value="'+k+'">'+NM[k]+'</option>').join('')+'</select>'+
+    '<input type="number" id="sm" min="0" placeholder="Amount (₹)">'+
+    '<input type="text" id="sn" placeholder="Note (e.g. pocket money, gift, webhut)" style="flex:1;min-width:160px">'+
+    '<button class="btn pri" id="sb">Add</button>'+
+  '</div><div class="sub" style="margin-top:8px">Log every rupee saved toward your MacBook, Custom PC, iPhone Pro Max, or General savings fund.</div></div>';
+
+  h+='<div class="scroll" style="margin-bottom:12px"><table class="sh2"><thead><tr><th style="text-align:left">Goal</th><th>Saved</th><th>Target</th><th>Progress</th><th>Remaining</th></tr></thead><tbody>';
+  ['mac','pc','iph'].forEach(k=>{
+    const p=Math.round(cl(saved(k)/T[k])*100);
+    h+='<tr><td>'+NM[k]+'</td><td class="n">'+fm(saved(k))+'</td><td class="n">'+fm(T[k])+'</td><td class="n"><div style="display:flex;align-items:center;gap:8px;justify-content:flex-end"><div class="pb" style="min-width:80px"><i style="width:'+p+'%"></i></div><span>'+p+'%</span></div></td><td class="n">'+fm(Math.max(0,T[k]-saved(k)))+'</td></tr>';
+  });
+  if(saved('gen')>0){
+    h+='<tr><td>General Savings</td><td class="n">'+fm(saved('gen'))+'</td><td class="n">–</td><td class="n">–</td><td class="n">–</td></tr>';
+  }
+  h+='</tbody></table></div>';
+
+  const savEntries=S.sav.map((e,i)=>[e,i]).filter(x=>x[0].t!=='i');
+  h+='<div class="row" style="margin-bottom:8px">'+
+    '<button type="button" class="cat-pill'+(savFilter==='all'?' on':'')+'" data-sf="all">All Savings ('+savEntries.length+')</button>'+
+    ['mac','pc','iph','gen'].map(gk=>'<button type="button" class="cat-pill'+(savFilter===gk?' on':'')+'" data-sf="'+gk+'">'+NM[gk]+'</button>').join('')+
+  '</div>';
+
+  h+='<div class="scroll"><table class="sh2"><thead><tr><th>Date</th><th>Goal</th><th>Amount</th><th style="text-align:left">Note</th><th></th></tr></thead><tbody>';
+  const L=savEntries.filter(x=>(savFilter==='all'||x[0].g===savFilter)&&(matchSearch(x[0].n)||matchSearch(NM[x[0].g])||matchSearch(x[0].d))).sort((a,b)=>b[0].d.localeCompare(a[0].d));
+  h+=L.length?L.map(x=>'<tr><td>'+x[0].d+'</td><td><span class="badge-light">'+NM[x[0].g]+'</span></td><td class="n">'+fm(x[0].a)+'</td><td class="b">'+esc(x[0].n||'')+'</td><td><button class="x" data-del="'+x[1]+'">×</button></td></tr>').join(''):'<tr><td colspan="5" class="b">No savings entries yet.</td></tr>';
+  return h+'</tbody></table></div>';
+}
+
+function rStats(){
+  const days7=activePastDays(7);
+  let t=0;days7.forEach(k=>{t+=sc(k)||0});
+  const avg7=days7.length?Math.round(t/days7.length*100):0;
+  let a=[];
+  activePastDays(30).slice(0,7).forEach(k=>{const d=S.days[k];if(d&&d.scr_h!=null)a.push(d.scr_h)});
+
+  let h='<div class="card"><div class="kpi"><div><b>'+streak(x=>(sc(x)||0)>=.8)+'</b><span>day streak (80%+)</span></div><div><b>'+streak(x=>S.days[x]&&S.days[x].clean)+'</b><span>clean-day streak</span></div><div><b>'+avg7+'%</b><span>7-day average</span></div><div><b>'+(a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1)+' h':'–')+'</b><span>avg screen time</span></div></div></div>';
+
+  const cats=['Faith','Body','Study','Business','Content','Discipline'];
+  const catBars=cats.map(cat=>{
+    const ids=H.filter(x=>x[1]===cat).map(x=>x[0]);
+    const p=Math.round(rate(ids)*100);
+    return '<div style="margin-bottom:8px"><div class="row" style="justify-content:space-between;margin-bottom:3px"><span class="cat-tag cat-'+cat+'">'+cat+'</span><b style="font-size:12px">'+p+'%</b></div><div class="pb"><i style="width:'+p+'%"></i></div></div>';
+  }).join('');
+
+  h+='<div class="card"><div class="heat-wrap"><div><h2>Last 35 days (Starts '+activeStart()+')</h2><div class="heat">';
+  for(let i=34;i>=0;i--){
+    const dt=back(i),pre=isPreStart(dt),s=sc(dt),dayNum=parseInt(dt.slice(8),10);
+    if(pre){
+      h+='<div class="n" title="'+dt+': Skipped (Before start date)">–</div>';
+    }else{
+      h+=s==null?'<div class="n" title="'+dt+': No entries">'+dayNum+'</div>':'<div style="background:rgba(13,148,136,'+(.18+.75*s)+')" title="'+dt+': '+Math.round(s*100)+'%">'+dayNum+'</div>';
+    }
+  }
+  h+='</div><div class="sub" style="margin-top:8px">Dates before <b>'+activeStart()+'</b> (including today) are skipped (`–`).</div></div>';
+  h+='<div style="flex:1;min-width:240px"><h2>Category Performance</h2>'+catBars+'</div></div></div>';
+
+  const days14=activePastDays(14);
+  const denom14=Math.max(1,days14.length);
+  h+='<div class="scroll"><table class="sh2"><thead><tr><th style="text-align:left">Habit</th><th>Category</th><th>Streak</th><th>Active 14-day window</th><th>%</th></tr></thead><tbody>';
+  H.filter(x=>matchSearch(x[2])||matchSearch(x[1])).forEach(x=>{
+    let c=0;
+    days14.forEach(k=>{const d=S.days[k];if(d&&d[x[0]])c++});
+    const p=days14.length?Math.round(c/denom14*100):0,st=habitStreak(x[0]);
+    h+='<tr><td>'+x[2]+'</td><td style="text-align:center"><span class="cat-tag cat-'+x[1]+'">'+x[1]+'</span></td><td class="n">'+(st?st+'d':'–')+'</td><td><div class="pb"><i style="width:'+p+'%"></i></div></td><td class="n">'+p+'%</td></tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+
+function render(keep){
+  const old=$('#sc')?$('#sc').scrollLeft:0;
+  $('#view').innerHTML=({trk:rTrk,plan:rPlan,plans:rPlans,goals:rGoals,sav:rSav,stats:rStats})[tab]();
+  $('#mn').classList.toggle('hide',tab!=='trk');
+  $('#mt').textContent=new Date(Y,M,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  document.querySelectorAll('#cat-filters button').forEach(b=>b.classList.toggle('on',b.dataset.cat===catFilter));
+  updateTopHeader();
+  if(tab==='trk'){
+    const s=$('#sc'),fDt=new Date(focusDateKey()+'T12:00:00');
+    if(s)s.scrollLeft=keep?old:(fDt.getFullYear()===Y&&fDt.getMonth()===M?Math.max(0,(fDt.getDate()-5)*34):0);
+  }
+}
+
+function downloadBlob(filename, content, mime){
+  const blob=new Blob([content],{type:mime||'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url)},200);
+}
+
+function exportMonthCSV(){
+  const n=new Date(Y,M+1,0).getDate(),st=activeStart(),t=tk();
+  const headers=['Habit','Category'];
+  for(let d=1;d<=n;d++)headers.push(key(Y,M,d));
+  headers.push('Completion %');
+  const rows=[headers.join(',')];
+  let el=0;
+  for(let d=1;d<=n;d++){const k=key(Y,M,d);if(k>=st&&k<=t)el++;}
+  H.forEach(h=>{
+    let c=0;
+    const row=['"'+h[2].replace(/"/g,'""')+'"',h[1]];
+    for(let d=1;d<=n;d++){
+      const k=key(Y,M,d),pre=isPreStart(k),on=!pre&&S.days[k]&&S.days[k][h[0]];
+      if(on)c++;
+      row.push(pre?'SKIP':(on?'1':'0'));
+    }
+    row.push((el?Math.round(c/el*100):0)+'%');
+    rows.push(row.join(','));
+  });
+  downloadBlob('ascent-'+Y+'-'+pad(M+1)+'.csv',rows.join('\n'),'text/csv;charset=utf-8');
+  showToast('Exported monthly CSV sheet');
+}
+
+function setupDynamicPWAManifest(){
+  try{
+    const makeIconDataUrl=sz=>{
+      const cv=document.createElement('canvas');
+      cv.width=sz;cv.height=sz;
+      const ctx=cv.getContext('2d');
+      ctx.fillStyle='#f0fdfa';
+      ctx.fillRect(0,0,sz,sz);
+      ctx.fillStyle='#fde047';
+      ctx.beginPath();
+      ctx.arc(sz*0.68,sz*0.30,sz*0.11,0,Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle='#0d9488';
+      ctx.beginPath();
+      ctx.moveTo(sz*0.20,sz*0.74);
+      ctx.lineTo(sz*0.46,sz*0.28);
+      ctx.lineTo(sz*0.72,sz*0.74);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle='#2dd4bf';
+      ctx.beginPath();
+      ctx.moveTo(sz*0.44,sz*0.74);
+      ctx.lineTo(sz*0.64,sz*0.42);
+      ctx.lineTo(sz*0.82,sz*0.74);
+      ctx.closePath();
+      ctx.fill();
+      return cv.toDataURL('image/png');
+    };
+    const ic192=makeIconDataUrl(192);
+    const ic512=makeIconDataUrl(512);
+    const pwaManifest={
+      name:"Ascent — 2027 Tracker",
+      short_name:"Ascent 2027",
+      description:"Routine, plans, goals and savings · target date 15 July 2027",
+      start_url:location.href.split('#')[0],
+      scope:"./",
+      display:"standalone",
+      background_color:"#f8fafc",
+      theme_color:"#0d9488",
+      icons:[
+        {src:ic192,sizes:"192x192",type:"image/png",purpose:"any maskable"},
+        {src:ic512,sizes:"512x512",type:"image/png",purpose:"any maskable"}
+      ]
+    };
+    const blob=new Blob([JSON.stringify(pwaManifest)],{type:'application/manifest+json'});
+    const link=$('#pwa-manifest-link');
+    if(link && location.protocol!=='chrome-extension:'){
+      link.href=URL.createObjectURL(blob);
+    }
+  }catch(e){}
+}
+setupDynamicPWAManifest();
+
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const box=$('#native-pwa-box');
+  if(box)box.classList.remove('hide');
+});
+
+function triggerInstallFlow(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(()=>{deferredPrompt=null;}).catch(()=>{});
+  }else{
+    $('#modal-install').classList.remove('hide');
+  }
+}
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button, td.c')||e.target;
+  if(t.matches&&t.matches('td.c')&&!t.classList.contains('f')){
+    const d=S.days[t.dataset.k]||(S.days[t.dataset.k]={});
+    d[t.dataset.h]=!d[t.dataset.h];
+    save();render(true);
+  }
+  else if(t.dataset&&t.dataset.tdh){
+    const k=t.dataset.tdk||focusDateKey(),d=S.days[k]||(S.days[k]={});
+    d[t.dataset.tdh]=!d[t.dataset.tdh];
+    save();render(true);
+  }
+  else if(t.dataset&&t.dataset.subj){
+    const sk=t.dataset.sdate||focusDateKey();
+    const map=S.studyDone[sk]||(S.studyDone[sk]={});
+    map[t.dataset.subj]=!map[t.dataset.subj];
+    save();render(true);
+  }
+  else if(t.dataset&&t.dataset.tab){
+    tab=t.dataset.tab;render(false);
+  }
+  else if(t.dataset&&t.dataset.cat){
+    catFilter=t.dataset.cat;render(true);
+  }
+  else if(t.dataset&&t.dataset.sf){
+    savFilter=t.dataset.sf;render(false);
+  }
+  else if(t.dataset&&t.dataset.pf){
+    planFilter=t.dataset.pf;render(false);
+  }
+  else if(t.dataset&&t.dataset.spt){
+    subPlanTab=t.dataset.spt;render(false);
+  }
+  else if(t.id==='pv'){
+    M--;if(M<0){M=11;Y--}render(false);
+  }
+  else if(t.id==='nx'){
+    M++;if(M>11){M=0;Y++}render(false);
+  }
+  else if(t.id==='btn-today'){
+    const fDt=new Date(focusDateKey()+'T12:00:00');
+    Y=fDt.getFullYear();M=fDt.getMonth();render(false);
+    showToast('Jumped to start date ('+focusDateKey()+')');
+  }
+  else if(t.id==='btn-toggle-cockpit'){
+    S.showCockpit=!S.showCockpit;save();render(true);
+  }
+  else if(t.id==='btn-clear-search'){
+    searchQuery='';
+    const inp=$('#app-search');
+    if(inp)inp.value='';
+    t.classList.add('hide');
+    render(true);
+  }
+  else if(t.id==='btn-install-chrome'){
+    triggerInstallFlow();
+  }
+  else if(t.id==='btn-trigger-pwa'&&deferredPrompt){
+    deferredPrompt.prompt();
+  }
+  else if(t.id==='btn-copy-ext-url'){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText('chrome://extensions').then(()=>showToast('Copied chrome://extensions'));
+    }
+  }
+  else if(t.id==='sb'){
+    const a=parseFloat($('#sm').value);
+    if(!(a>0)){showToast('Enter a valid saving amount (₹)');return;}
+    S.sav.push({d:$('#sd').value||focusDateKey(),t:'s',g:$('#sg').value,a:a,n:$('#sn').value.trim()});
+    save();render();
+    showToast('Saving entry added');
+  }
+  else if(t.dataset&&t.dataset.del!==undefined){
+    S.sav.splice(+t.dataset.del,1);save();render();
+    showToast('Entry removed');
+  }
+  else if(t.dataset&&t.dataset.delCg!==undefined){
+    const rm=S.custom.splice(+t.dataset.delCg,1)[0];
+    if(rm)delete S.goals[rm[0]];
+    save();render();
+    showToast('Manual goal removed');
+  }
+  else if(t.id==='ga'){
+    const v=$('#gn').value.trim();
+    if(!v){showToast('Enter a goal name first');return;}
+    S.custom.push(['c'+Date.now(),v]);
+    save();render();
+    showToast('Manual goal added');
+  }
+  else if(t.id==='btn-urge-push'){
+    urgePushups=Math.min(20,urgePushups+5);
+    if(urgePushups>=20&&urgeStep===2)urgeStep=3;
+    render(false);
+  }
+  else if(t.id==='btn-urge-next'){
+    urgeStep=(urgeStep+1)%4;
+    render(false);
+  }
+  else if(t.id==='btn-urge-reset'){
+    urgeStep=0;urgePushups=0;render(false);
+  }
+  else if(t.dataset&&t.dataset.tmr){
+    clearInterval(focusTimer);focusRunning=false;
+    focusSec=parseInt(t.dataset.tmr,10);
+    render(false);
+  }
+  else if(t.id==='btn-tmr-toggle'){
+    if(focusRunning){
+      clearInterval(focusTimer);focusRunning=false;render(false);
+    }else{
+      if(focusSec<=0)focusSec=900;
+      focusRunning=true;
+      clearInterval(focusTimer);
+      focusTimer=setInterval(()=>{
+        if(focusSec>0){
+          focusSec--;
+          const rd=$('#timer-readout');
+          if(rd)rd.textContent=formatTimer(focusSec);
+        }else{
+          clearInterval(focusTimer);focusRunning=false;
+          showToast('Focus block complete!');
+          render(false);
+        }
+      },1000);
+      render(false);
+    }
+  }
+  else if(t.id==='btn-backup'){
+    $('#modal-backup').classList.remove('hide');
+  }
+  else if(t.dataset&&t.dataset.closeModal){
+    $('#'+t.dataset.closeModal).classList.add('hide');
+  }
+  else if(t.id==='btn-export-json'){
+    downloadBlob('ascent-2027-backup-'+tk()+'.json',JSON.stringify(S,null,2),'application/json');
+    showToast('Downloaded JSON backup');
+  }
+  else if(t.id==='btn-export-csv'){
+    exportMonthCSV();
+  }
+  else if(t.id==='btn-copy-json'){
+    const str=JSON.stringify(S);
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(str).then(()=>showToast('Copied backup JSON to clipboard')).catch(()=>showToast('Copy failed'));
+    }else{
+      const inp=$('#paste-import-json');
+      if(inp){inp.value=str;inp.select();document.execCommand('copy');showToast('Copied backup JSON');}
+    }
+  }
+  else if(t.id==='btn-apply-paste'){
+    const raw=($('#paste-import-json').value||'').trim();
+    if(!raw){showToast('Paste a backup JSON string first');return;}
+    try{
+      const o=JSON.parse(raw);
+      if(o&&typeof o==='object'){
+        S=Object.assign(S,o);
+        S.set=Object.assign({},DEF,o.set||{});
+        S.sav=o.sav||[];S.custom=o.custom||[];S.goals=o.goals||{};
+        save();render(false);
+        $('#modal-backup').classList.add('hide');
+        showToast('Backup restored successfully');
+      }
+    }catch(err){showToast('Invalid JSON format');}
+  }
+  else if(t.id==='dl-ext-manifest'){
+    const mf={
+      manifest_version:3,
+      name:"Ascent — 2027 Tracker",
+      short_name:"Ascent 2027",
+      version:"2.2.0",
+      description:"Routine, plans, goals and savings · target date 15 July 2027",
+      action:{default_title:"Open Ascent — 2027 Tracker"},
+      omnibox:{keyword:"ascent"},
+      background:{service_worker:"background.js"}
+    };
+    downloadBlob('manifest.json',JSON.stringify(mf,null,2),'application/json');
+    showToast('Downloaded manifest.json');
+  }
+  else if(t.id==='dl-ext-bg'){
+    const bg=[
+      "function openAscentWindow() {",
+      "  const url = chrome.runtime.getURL('index.html');",
+      "  chrome.windows.create({ url, type: 'popup', width: 1220, height: 820 });",
+      "}",
+      "chrome.action.onClicked.addListener(openAscentWindow);",
+      "if (chrome.omnibox) {",
+      "  chrome.omnibox.onInputEntered.addListener(openAscentWindow);",
+      "}"
+    ].join('\n')+'\n';
+    downloadBlob('background.js',bg,'text/javascript');
+    showToast('Downloaded background.js');
+  }
+  else if(t.id==='dl-pwa-sw'){
+    const sw=`const CACHE='ascent-2027-v3';\nself.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','./index.html','./ascent-sheet.html'])));self.skipWaiting()});\nself.addEventListener('activate',e=>{e.waitUntil(self.clients.claim())});\nself.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))});\n`;
+    downloadBlob('sw.js',sw,'text/javascript');
+    showToast('Downloaded sw.js');
+  }
+  else if(t.id==='dl-webmanifest'){
+    const wm={
+      name:"Ascent — 2027 Tracker",
+      short_name:"Ascent 2027",
+      description:"Routine, plans, goals and savings · target date 15 July 2027",
+      start_url:"./index.html",
+      display:"standalone",
+      background_color:"#f8fafc",
+      theme_color:"#0d9488",
+      icons:[
+        {src:"icon-192.png",sizes:"192x192",type:"image/png"},
+        {src:"icon-512.png",sizes:"512x512",type:"image/png"}
+      ]
+    };
+    downloadBlob('site.webmanifest',JSON.stringify(wm,null,2),'application/manifest+json');
+    showToast('Downloaded site.webmanifest');
+  }
+  else if(t.id==='dl-win-bat'){
+    const bat=`@echo off\r\nstart "" chrome --app="%~dp0index.html"\r\n`;
+    downloadBlob('Launch-Ascent-Chrome-App.bat',bat,'application/bat');
+    showToast('Downloaded Windows Chrome App Launcher');
+  }
+  else if(t.id==='dl-mac-sh'){
+    const sh=`#!/bin/bash\nDIR="$( cd "$( dirname "\${BASH_SOURCE[0]}" )" && pwd )"\nopen -na "Google Chrome" --args --app="file://\$DIR/index.html"\n`;
+    downloadBlob('Launch-Ascent-Chrome-App.command',sh,'text/x-shellscript');
+    showToast('Downloaded Mac/Linux Chrome App Launcher');
+  }
+});
+
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.f){
+    const d=S.days[t.dataset.k]||(S.days[t.dataset.k]={});
+    if(t.value==='')delete d[t.dataset.f];
+    else d[t.dataset.f]=parseFloat(t.value);
+    save();render(true);
+  }
+  else if(t.dataset.set){
+    S.set[t.dataset.set]=Math.max(1,parseFloat(t.value)||DEF[t.dataset.set]);
+    save();render();
+  }
+  else if(t.id==='palette-sel'){
+    applyPalette(t.value);save();
+  }
+  else if(t.id==='file-import-json'&&t.files&&t.files[0]){
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const o=JSON.parse(ev.target.result);
+        if(o&&typeof o==='object'){
+          S=Object.assign(S,o);
+          S.set=Object.assign({},DEF,o.set||{});
+          S.sav=o.sav||[];S.custom=o.custom||[];S.goals=o.goals||{};
+          save();render(false);
+          $('#modal-backup').classList.add('hide');
+          showToast('Backup file imported!');
+        }
+      }catch(err){showToast('Could not parse JSON file');}
+    };
+    reader.readAsText(t.files[0]);
+  }
+});
+
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.cg){
+    S.goals[t.dataset.cg]=+t.value;
+    save();
+    t.closest('tr').querySelector('.n').textContent=t.value+'%';
+  }
+  else if(t.id==='app-search'){
+    searchQuery=t.value.trim();
+    const clr=$('#btn-clear-search');
+    if(clr)clr.classList.toggle('hide',!searchQuery);
+    render(true);
+  }
+});
+
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+updateTopHeader();
+render(false);
+</script>
+</body>
+</html>

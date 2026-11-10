@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Ascent \u2014 2027 Tracker",
+  "short_name": "Ascent 2027",
+  "version": "2.1.0",
+  "description": "Routine, goals and savings \u00b7 target date 15 July 2027",
+  "icons": {
+    "48": "icon-48.png",
+    "128": "icon-128.png",
+    "192": "icon-192.png",
+    "512": "icon-512.png"
+  },
+  "action": {
+    "default_title": "Open Ascent \u2014 2027 Tracker",
+    "default_icon": {
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  },
+  "omnibox": {
+    "keyword": "ascent"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
