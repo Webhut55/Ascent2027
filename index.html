@@ -1150,14 +1150,14 @@ input:focus, select:focus {
 <script>
 const H=[['fajr','Faith','Fajr in the mosque (5:20–5:45 am)'],['pray','Faith','Other four prayers on time'],['quran','Faith','Quran block (surah of the day)'],
 ['wake','Body','Wake up by 5:00'],['work','Body','Bodyweight workout (30 min)'],['skin','Body','Skincare morning and night'],
-['s1','Study','Study block 1'],['s2','Study','Study block 2'],['rev','Study','Revise the day’s school notes'],
+['s1','Study','Study block 1: today’s lessons, homework, extra'],['s2','Study','Study block 2: study chart (2 school + 1 madrassa)'],['rev','Study','Quick note review before sleep (10 min)'],
 ['wh','Business','webhut marketing and client search'],['ct','Content','Content work (in daylight)'],
 ['clean','Discipline','Clean day (self-control)'],['scr','Discipline','Phone out of bedroom, screens off by 9:30 pm'],['sl','Discipline','Asleep by 10:00 pm']];
 
-const P1=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–7:30','Madrassa'],['7:30','Breakfast, get ready for school'],['8:30–4:45','School (revise in free minutes)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib'],['6:15','Bodyweight workout (30 min), shower'],['7:00','Dinner'],['7:30','Study block 1 (1 h 15 min)'],['8:45','Isha, Quran block (15 min: Mon Yaseen, Tue Waqiah, Wed Mulk, Thu Rahman)'],['9:00','webhut marketing and client search (30 min)'],['9:30','Study block 2 (15 min revision)'],['9:45','Review, plan tomorrow, phone out of room'],['10:00','Sleep']];
-const P2=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Bodyweight workout (30 min)'],['6:15','Shower, skincare'],['6:30','Study block 1 (1 h)'],['7:45','Breakfast, get ready'],['8:30–4:45','School (Jumu’ah prayer at midday)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, Quran block (20 min: Surah Kahf)'],['8:50','webhut marketing and client search (45 min)'],['9:35','Review, plan tomorrow, phone out'],['10:00','Sleep']];
-const P3=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–8:30','Madrassa'],['8:30','Quick breakfast, go to school'],['9:00–1:00','School'],['1:30','Dhuhr, lunch, rest'],['2:30','webhut marketing and client search (1 h 30 min)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Bodyweight workout (30 min), shower'],['6:15','Maghrib, dinner'],['7:15','Study block 1 (1 h 30 min)'],['8:45','Isha, Quran block (15 min: Surah Yaseen)'],['9:00','Study block 2 (30 min)'],['9:30','Review, plan tomorrow, phone out'],['10:00','Sleep']];
-const P4=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–8:30','Madrassa'],['8:45','Breakfast, rest'],['9:30','Study block 1 (2 h)'],['11:30','Weekend activity or workout (1 h), shower'],['12:30','Dhuhr, lunch, rest'],['2:00','webhut marketing and client search (2 h)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Asr, free time'],['6:15','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, Quran block (30 min: Waqiah and Rahman)'],['9:00','Weekly review (score, wins, one change)'],['9:30','Phone out, plan the week'],['10:00','Sleep']];
+const P1=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–7:30','Madrassa'],['7:30','Breakfast, get ready for school'],['8:30–4:45','School (revise in free minutes)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib'],['6:15','Bodyweight workout (30 min), shower'],['7:00','Dinner, Isha'],['7:30','Study block 1 (50 min): today’s lessons, homework, extra'],['8:20','Quran block (15 min: Mon Yaseen, Tue Waqiah, Wed Mulk, Thu Rahman)'],['8:35','webhut marketing and client search (30 min)'],['9:05','Study block 2 (45 min): study chart, 2 school subjects + 1 madrassa subject'],['9:50','Quick note review, plan tomorrow, phone out of room'],['10:00','Sleep']];
+const P2=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Bodyweight workout (30 min)'],['6:15','Shower, skincare'],['6:30','Study block 2 (1 h): study chart, 2 school subjects + 1 madrassa subject'],['7:45','Breakfast, get ready'],['8:30–4:45','School (Jumu’ah prayer at midday)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib, dinner'],['7:15','Study block 1 (1 h 15 min): today’s lessons, homework, extra'],['8:30','Isha, Quran block (20 min: Surah Kahf)'],['8:50','webhut marketing and client search (45 min)'],['9:35','Quick note review, plan tomorrow, phone out'],['10:00','Sleep']];
+const P3=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–8:30','Madrassa'],['8:30','Quick breakfast, go to school'],['9:00–1:00','School'],['1:30','Dhuhr, lunch, rest'],['2:30','webhut marketing and client search (1 h 30 min)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Bodyweight workout (30 min), shower'],['6:15','Maghrib, dinner, Isha'],['7:15','Study block 1 (1 h): today’s lessons, homework, extra'],['8:15','Quran block (15 min: Surah Yaseen)'],['8:30','Study block 2 (1 h): study chart, 2 school subjects + 1 madrassa subject'],['9:30','Quick note review, plan tomorrow, phone out'],['10:00','Sleep']];
+const P4=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–8:30','Madrassa'],['8:45','Breakfast, rest'],['9:30','Study block 1 (2 h): homework, extra practice, catch-up on weak topics'],['11:30','Weekend activity or workout (1 h), shower'],['12:30','Dhuhr, lunch, rest'],['2:00','webhut marketing and client search (2 h)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Asr, free time'],['6:15','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min): study chart, 2 school subjects + 1 madrassa subject'],['8:30','Isha, Quran block (30 min: Waqiah and Rahman)'],['9:00','Weekly review (score, wins, one change)'],['9:30','Phone out, plan the week'],['10:00','Sleep']];
 const SCH=[['Monday–Thursday: school and madrassa 6:00–7:30',P1],['Friday: school, no madrassa, no early class',P2],['Saturday: madrassa 6:00–8:30, school 9:00–1:00',P3],['Sunday: madrassa 6:00–8:30, then free',P4]];
 
 // 1. Custom Progressive Bodyweight Workout Plan (Mon to Sat + Warm-up & Cool-down)
@@ -1223,13 +1223,13 @@ const WORKOUT_COOLDOWN=[
 
 // 2. Custom Study Plan (Exact Subjects Requested by User)
 const STUDY_PLAN=[
-  ['Monday',['SS','Maths','Physics','Lisan']],
-  ['Tuesday',['SS','Maths','Biology','Thafseer']],
-  ['Wednesday',['Chemistry','SS','Eng','Duroos']],
-  ['Thursday',['Hindi','SS','Malayalam 2nd','Fiqh']],
-  ['Friday',['Arabic','Maths','SS','Thafseer']],
-  ['Saturday',['Biology','Physics','Chemistry','Duroos']],
-  ['Sunday',['SS','Maths','Physics','Lisan']]
+  ['Monday',['Maths','Physics','Lisan']],
+  ['Tuesday',['SS','Biology','Thafseer']],
+  ['Wednesday',['Chemistry','Eng','Duroos']],
+  ['Thursday',['Maths','Hindi','Fiqh']],
+  ['Friday',['SS','Arabic','Thafseer']],
+  ['Saturday',['Physics','Malayalam 2nd','Duroos']],
+  ['Sunday',['Chemistry','Biology','Lisan']]
 ];
 
 // 3. Zero-Rupee (₹0) Teenager Facecare Plan
@@ -1259,21 +1259,21 @@ const FACECARE_PLAN=[
 
 // 4. Webhut Marketing & Client Plan (aligned to the daily routine slots: 6.25 hrs/week)
 const WEBHUT_PLAN=[
-  ['Monday','9:00–9:30 pm (30 min)','Build the Lead List','Find 10 local businesses (shops, salons, clinics, tutors, creators) with no website or only an Instagram page. Save name, WhatsApp or phone, and Instagram link in your lead sheet.'],
-  ['Tuesday','9:00–9:30 pm (30 min)','Research & Personalise','Pick 3 leads and note one clear gap for each (no site, no order button, slow page). Write a short personal message for each one.'],
-  ['Wednesday','9:00–9:30 pm (30 min)','Outreach Day','Send 5 polite WhatsApp or Instagram messages with your 48-hour website offer and a portfolio link. Log each one in the lead sheet.'],
-  ['Thursday','9:00–9:30 pm (30 min)','Follow-ups & Replies','Reply to every answer, follow up on messages with no reply, and book calls or meetings. Update each lead status (new, contacted, interested, closed).'],
+  ['Monday','8:35–9:05 pm (30 min)','Build the Lead List','Find 10 local businesses (shops, salons, clinics, tutors, creators) with no website or only an Instagram page. Save name, WhatsApp or phone, and Instagram link in your lead sheet.'],
+  ['Tuesday','8:35–9:05 pm (30 min)','Research & Personalise','Pick 3 leads and note one clear gap for each (no site, no order button, slow page). Write a short personal message for each one.'],
+  ['Wednesday','8:35–9:05 pm (30 min)','Outreach Day','Send 5 polite WhatsApp or Instagram messages with your 48-hour website offer and a portfolio link. Log each one in the lead sheet.'],
+  ['Thursday','8:35–9:05 pm (30 min)','Follow-ups & Replies','Reply to every answer, follow up on messages with no reply, and book calls or meetings. Update each lead status (new, contacted, interested, closed).'],
   ['Friday','8:50–9:35 pm (45 min)','Proof & Visibility','Post one portfolio piece, before and after, or short demo on the webhut page. Send 5 more outreach messages.'],
   ['Saturday','2:30–4:00 pm (1 h 30 min)','Local Push & Demo Sprint','Call or visit 5 nearby businesses, and build a quick homepage mockup for your best lead. Send it with a short note and a clear price.'],
   ['Sunday','2:00–4:00 pm (2 hrs)','Pipeline Review & Proposals','Count messages sent, replies, calls and closed deals. Write proposals or invoices, set next week’s targets, and log any income toward your MacBook, PC or iPhone goal.']
 ];
 const QURAN_PLAN=[
-  ['Monday','8:45–9:00 pm (15 min)','Surah Yaseen','After Isha, in a quiet spot with your phone out of the room.'],
-  ['Tuesday','8:45–9:00 pm (15 min)','Surah Al-Waqiah','After Isha. Read slowly and with attention.'],
-  ['Wednesday','8:45–9:00 pm (15 min)','Surah Al-Mulk','After Isha, a calm block before the final study session.'],
-  ['Thursday','8:45–9:00 pm (15 min)','Surah Ar-Rahman','After Isha. Read at a steady pace.'],
+  ['Monday','8:20–8:35 pm (15 min)','Surah Yaseen','After Isha, in a quiet spot with your phone out of the room.'],
+  ['Tuesday','8:20–8:35 pm (15 min)','Surah Al-Waqiah','After Isha. Read slowly and with attention.'],
+  ['Wednesday','8:20–8:35 pm (15 min)','Surah Al-Mulk','After Isha, a calm block before the study chart session.'],
+  ['Thursday','8:20–8:35 pm (15 min)','Surah Ar-Rahman','After Isha. Read at a steady pace.'],
   ['Friday','8:30–8:50 pm (20 min)','Surah Al-Kahf','After Isha, your Jumu’ah recitation.'],
-  ['Saturday','8:45–9:00 pm (15 min)','Surah Yaseen','After Isha.'],
+  ['Saturday','8:15–8:30 pm (15 min)','Surah Yaseen','After Isha.'],
   ['Sunday','8:30–9:00 pm (30 min)','Surah Al-Waqiah and Surah Ar-Rahman','After Isha, a longer block before the weekly review.']
 ];
 
@@ -1712,22 +1712,22 @@ function rPlans(){
     const doneMap=S.studyDone[fKey]||{};
     secStudy='<div class="card">'+
       '<h2><span>2. Daily Study Plan (SSLC + Madrassa · Mon to Sun)</span><span class="badge-light">Click a subject on '+dayLabel+' to mark done</span></h2>'+
-      '<div class="scroll"><table class="sh2"><thead><tr><th style="width:120px;text-align:left">Day</th><th style="text-align:left">Subjects (Study Block 1, Block 2 &amp; Revision)</th><th style="width:140px">Schedule Slot</th></tr></thead><tbody>'+
+      '<div class="scroll"><table class="sh2"><thead><tr><th style="width:120px;text-align:left">Day</th><th style="text-align:left">Study chart: 2 school subjects + 1 madrassa subject</th><th style="width:140px">Schedule Slot</th></tr></thead><tbody>'+
       STUDY_PLAN.filter(r=>matchSearch(r[0])||r[1].some(s=>matchSearch(s))).map((r,i)=>{
         const isAct=i===dayIdx;
-        const pills=r[1].map(subj=>{
+        const pills=r[1].map((subj,si)=>{
           const k=r[0]+':'+subj;
           const isDone=isAct && !!doneMap[k];
-          return '<button type="button" class="subj-pill'+(isDone?' done':'')+'" data-subj="'+esc(k)+'" data-sdate="'+fKey+'">'+(isDone?'✓ ':'')+subj+'</button>';
+          return '<button type="button" class="subj-pill'+(isDone?' done':'')+'" data-subj="'+esc(k)+'" data-sdate="'+fKey+'">'+(isDone?'✓ ':'')+subj+(si===2?' · Madrassa':'')+'</button>';
         }).join('');
         return '<tr class="'+(isAct?'now-row':'')+'">'+
           '<td>'+r[0]+(isAct?' <span class="badge-warn" style="font-size:10px">'+(skipToday?'Tomorrow':'Today')+'</span>':'')+'</td>'+
           '<td>'+pills+'</td>'+
-          '<td class="b">Block 1 + Block 2</td>'+
+          '<td class="b">Study block 2</td>'+
         '</tr>';
       }).join('')+
       '</tbody></table></div>'+
-      '<div class="sub" style="margin-top:8px"><b>How to split your 4 daily subjects:</b> Cover Subject 1 &amp; Subject 2 during <b>Study block 1</b> (main deep study), Subject 3 during <b>Study block 2</b>, and your Madrassa subject (<i>Lisan / Thafseer / Duroos / Fiqh</i>) during morning/evening revision.</div>'+
+      '<div class="sub" style="margin-top:8px"><b>How the two study blocks work:</b> <b>Study block 1</b> covers what was taught at school that day, your homework and extra practice. <b>Study block 2</b> follows this chart: the first two subjects are school subjects and the third is your madrassa subject (<i>Lisan / Thafseer / Duroos / Fiqh</i>). On Fridays and Sundays the two blocks swap order to fit the day.</div>'+
     '</div>';
   }
 
