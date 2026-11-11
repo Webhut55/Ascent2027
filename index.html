@@ -1017,7 +1017,7 @@ input:focus, select:focus {
 
   <div class="top-right">
     <div class="status-pills">
-      <span class="pill-stat" title="Active day completion">Status: <b id="td-score-pill">Starts Tomorrow</b></span>
+      <span class="pill-stat" title="Active day completion">Status: <b id="td-score-pill">0/14 (0%)</b></span>
       <span class="pill-stat" title="Current 80%+ daily streak">Streak: <b id="top-streak-pill">0d</b></span>
       <div class="cd"><b id="cd">–</b> <span class="s">days left</span></div>
     </div>
@@ -1279,8 +1279,8 @@ const tk=()=>{const t=new Date();return key(t.getFullYear(),t.getMonth(),t.getDa
 const tmrwKey=()=>{const t=new Date();t.setDate(t.getDate()+1);return key(t.getFullYear(),t.getMonth(),t.getDate())};
 const back=n=>{const t=new Date();t.setDate(t.getDate()-n);return key(t.getFullYear(),t.getMonth(),t.getDate())};
 
-// Default start date is tomorrow (2026-11-11 or tomorrow relative to first launch) so today is skipped!
-const DEFAULT_START=tmrwKey();
+// Tracking starts today (11 Nov 2026) and runs onwards.
+const DEFAULT_START='2026-11-11';
 
 let S={days:{},goals:{},custom:[],sav:[],set:Object.assign({},DEF),palette:'mint',showCockpit:true,startDate:DEFAULT_START,studyDone:{}};
 try{
@@ -1300,10 +1300,8 @@ try{
   }
 }catch(e){}
 
-// Guarantee today is skipped if startDate wasn't set or equals today on initial setup
-if(!S.startDate || S.startDate<'2026-11-11'){
-  S.startDate=DEFAULT_START>'2026-11-11'?DEFAULT_START:'2026-11-11';
-}
+// Always start from today (11 Nov 2026), even if an older saved copy had a later start date.
+S.startDate=DEFAULT_START;
 
 const save=()=>{
   try{localStorage.setItem('ascent_v1',JSON.stringify(S))}catch(e){}
@@ -1464,7 +1462,7 @@ function rCockpit(){
     '<div class="td-metrics">'+
       '<label>📱 Screen time (hours): <input type="number" min="0" step="0.1" data-f="scr_h" data-k="'+targetK+'" value="'+scrVal+'" placeholder="e.g. 1.5" style="width:95px"></label>'+
       '<label>👥 Followers (total): <input type="number" min="0" step="1" data-f="fol" data-k="'+targetK+'" value="'+folVal+'" placeholder="e.g. 12500" style="width:115px"></label>'+
-      '<span class="sub" style="margin-left:auto">Start date: <b>'+st+'</b> (Today is skipped)</span>'+
+      '<span class="sub" style="margin-left:auto">Start date: <b>'+st+'</b></span>'+
     '</div>'+
   '</div>';
 }
@@ -1525,7 +1523,7 @@ function rTrk(){
     mr('Screen time (hours)','scr_h','0.1')+
     mr('Followers (total)','fol','1')+
     '</tbody></table></div>'+
-    '<div class="sub" style="margin-top:10px">Today and earlier dates are skipped (`–`). Tracking begins from tomorrow (<b>'+st+'</b>) onwards. Everything saves automatically in this browser.</div>';
+    '<div class="sub" style="margin-top:10px">Tracking runs from <b>'+st+'</b> (today) onwards. Everything saves automatically in this browser.</div>';
 }
 
 function getScheduleIdxForDate(dt){
@@ -1665,7 +1663,7 @@ function rPlans(){
     '<button type="button" class="cat-pill'+(subPlanTab==='study'?' on':'')+'" data-spt="study">2. Study Plan (Mon–Sun)</button>'+
     '<button type="button" class="cat-pill'+(subPlanTab==='face'?' on':'')+'" data-spt="face">3. Facecare Plan (₹0)</button>'+
     '<button type="button" class="cat-pill'+(subPlanTab==='webhut'?' on':'')+'" data-spt="webhut">4. Webhut Work Plan</button>'+
-    '<span class="badge-warn" style="margin-left:auto">Starts Tomorrow ('+activeStart()+') · Today Skipped</span>'+
+    '<span class="badge-light" style="margin-left:auto">Started '+activeStart()+'</span>'+
   '</div>';
 
   // Section 1: Workout Plan
@@ -1848,7 +1846,7 @@ function rStats(){
       h+=s==null?'<div class="n" title="'+dt+': No entries">'+dayNum+'</div>':'<div style="background:rgba(13,148,136,'+(.18+.75*s)+')" title="'+dt+': '+Math.round(s*100)+'%">'+dayNum+'</div>';
     }
   }
-  h+='</div><div class="sub" style="margin-top:8px">Dates before <b>'+activeStart()+'</b> (including today) are skipped (`–`).</div></div>';
+  h+='</div><div class="sub" style="margin-top:8px">Tracking started on <b>'+activeStart()+'</b>; earlier dates show `–`.</div></div>';
   h+='<div style="flex:1;min-width:240px"><h2>Category Performance</h2>'+catBars+'</div></div></div>';
 
   const days14=activePastDays(14);
