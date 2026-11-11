@@ -1148,16 +1148,16 @@ input:focus, select:focus {
 </div>
 
 <script>
-const H=[['fajr','Faith','Fajr prayer on time'],['pray','Faith','Other four prayers on time'],['quran','Faith','Quran and dhikr (15 min)'],
+const H=[['fajr','Faith','Fajr in the mosque (5:20–5:45 am)'],['pray','Faith','Other four prayers on time'],['quran','Faith','Quran block (surah of the day)'],
 ['wake','Body','Wake up by 5:00'],['work','Body','Bodyweight workout (30 min)'],['skin','Body','Skincare morning and night'],
 ['s1','Study','Study block 1'],['s2','Study','Study block 2'],['rev','Study','Revise the day’s school notes'],
-['wh','Business','webhut work'],['ct','Content','Content work (in daylight)'],
+['wh','Business','webhut marketing and client search'],['ct','Content','Content work (in daylight)'],
 ['clean','Discipline','Clean day (self-control)'],['scr','Discipline','Phone out of bedroom, screens off by 9:30 pm'],['sl','Discipline','Asleep by 10:00 pm']];
 
-const P1=[['5:00','Wake, wudu, Fajr'],['5:20','Quran and dhikr (15 min), skincare'],['5:50','Leave for madrassa'],['6:00–7:30','Madrassa'],['7:30','Breakfast, get ready for school'],['8:30–4:45','School (revise in free minutes)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib'],['6:15','Bodyweight workout (30 min), shower'],['7:00','Dinner'],['7:30','Study block 1 (1 h 15 min)'],['8:45','Isha, webhut work (30 min)'],['9:15','Study block 2 (30 min revision)'],['9:45','Review, plan tomorrow, phone out of room'],['10:00','Sleep']];
-const P2=[['5:00','Wake, wudu, Fajr, Quran and dhikr'],['5:30','Bodyweight workout (30 min), shower, skincare'],['6:30','Study block 1 (1 h)'],['7:45','Breakfast, get ready'],['8:30–4:45','School (Jumu’ah prayer at midday)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, webhut work (1 h)'],['9:30','Review, plan tomorrow, phone out'],['10:00','Sleep']];
-const P3=[['5:00','Wake, wudu, Fajr, Quran and dhikr'],['5:20','Skincare, leave for madrassa'],['6:00–8:30','Madrassa'],['8:30','Quick breakfast, go to school'],['9:00–1:00','School'],['1:30','Dhuhr, lunch, rest'],['2:30','webhut work (1 h 30 min)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Bodyweight workout (30 min), shower'],['6:15','Maghrib, dinner'],['7:15','Study block 1 (1 h 30 min)'],['8:45','Isha, study block 2 (45 min)'],['9:30','Review, plan tomorrow, phone out'],['10:00','Sleep']];
-const P4=[['5:00','Wake, wudu, Fajr, Quran and dhikr'],['5:20','Skincare, leave for madrassa'],['6:00–8:30','Madrassa'],['8:45','Breakfast, rest'],['9:30','Study block 1 (2 h)'],['11:30','Weekend activity or workout (1 h), shower'],['12:30','Dhuhr, lunch, rest'],['2:00','webhut work (2 h)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Asr, free time'],['6:15','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, weekly review (score, wins, one change)'],['9:30','Phone out, plan the week'],['10:00','Sleep']];
+const P1=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–7:30','Madrassa'],['7:30','Breakfast, get ready for school'],['8:30–4:45','School (revise in free minutes)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib'],['6:15','Bodyweight workout (30 min), shower'],['7:00','Dinner'],['7:30','Study block 1 (1 h 15 min)'],['8:45','Isha, Quran block (15 min: Mon Yaseen, Tue Waqiah, Wed Mulk, Thu Rahman)'],['9:00','webhut marketing and client search (30 min)'],['9:30','Study block 2 (15 min revision)'],['9:45','Review, plan tomorrow, phone out of room'],['10:00','Sleep']];
+const P2=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Bodyweight workout (30 min)'],['6:15','Shower, skincare'],['6:30','Study block 1 (1 h)'],['7:45','Breakfast, get ready'],['8:30–4:45','School (Jumu’ah prayer at midday)'],['5:00','Asr, light meal'],['5:15','Content work (45 min, daylight)'],['6:00','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, Quran block (20 min: Surah Kahf)'],['8:50','webhut marketing and client search (45 min)'],['9:35','Review, plan tomorrow, phone out'],['10:00','Sleep']];
+const P3=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–8:30','Madrassa'],['8:30','Quick breakfast, go to school'],['9:00–1:00','School'],['1:30','Dhuhr, lunch, rest'],['2:30','webhut marketing and client search (1 h 30 min)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Bodyweight workout (30 min), shower'],['6:15','Maghrib, dinner'],['7:15','Study block 1 (1 h 30 min)'],['8:45','Isha, Quran block (15 min: Surah Yaseen)'],['9:00','Study block 2 (30 min)'],['9:30','Review, plan tomorrow, phone out'],['10:00','Sleep']];
+const P4=[['5:00','Wake, wudu, get ready'],['5:20–5:45','Fajr in the mosque'],['5:45','Skincare, head to madrassa'],['6:00–8:30','Madrassa'],['8:45','Breakfast, rest'],['9:30','Study block 1 (2 h)'],['11:30','Weekend activity or workout (1 h), shower'],['12:30','Dhuhr, lunch, rest'],['2:00','webhut marketing and client search (2 h)'],['4:00','Content work (1 h 30 min, daylight)'],['5:30','Asr, free time'],['6:15','Maghrib, dinner'],['7:15','Study block 2 (1 h 15 min)'],['8:30','Isha, Quran block (30 min: Waqiah and Rahman)'],['9:00','Weekly review (score, wins, one change)'],['9:30','Phone out, plan the week'],['10:00','Sleep']];
 const SCH=[['Monday–Thursday: school and madrassa 6:00–7:30',P1],['Friday: school, no madrassa, no early class',P2],['Saturday: madrassa 6:00–8:30, school 9:00–1:00',P3],['Sunday: madrassa 6:00–8:30, then free',P4]];
 
 // 1. Custom Progressive Bodyweight Workout Plan (Mon to Sat + Warm-up & Cool-down)
@@ -1257,15 +1257,24 @@ const FACECARE_PLAN=[
   ]]
 ];
 
-// 4. Webhut Work Plan (Aligned to Daily Routine Slots: 6.5 hrs/week)
+// 4. Webhut Marketing & Client Plan (aligned to the daily routine slots: 6.25 hrs/week)
 const WEBHUT_PLAN=[
-  ['Monday','8:45–9:15 pm (30 min)','Weekly Target & Lead List','Pick 1 main project/template for the week, clear messages, and write down 3 businesses or creators who need a clean website.'],
-  ['Tuesday','8:45–9:15 pm (30 min)','Wireframe & Hero Section','Build the HTML structure, navigation bar, and responsive hero section for the active Webhut project.'],
-  ['Wednesday','8:45–9:15 pm (30 min)','Core Sections & Clean UI','Code the main content cards, services/features grid, and light, high-contrast styling.'],
-  ['Thursday','8:45–9:15 pm (30 min)','Mobile Responsiveness & QA','Test on phone/tablet widths, check button interactions, and optimize fast loading.'],
-  ['Friday','8:30–9:30 pm (1 hr)','Live Preview & Outreach','Publish preview link (GitHub Pages/Netlify) and send 3 polite demo messages or portfolio updates.'],
-  ['Saturday','2:30–4:00 pm (1 h 30 min)','Deep Build Sprint','Focused coding block: build advanced interactive components, client revisions, or reusable Webhut starter templates.'],
-  ['Sunday','2:00–4:00 pm (2 hrs)','Ship, Portfolio & Review','Finalize and ship this week’s build, update your Webhut showcase, and log any project savings toward your MacBook/PC/iPhone goals.']
+  ['Monday','9:00–9:30 pm (30 min)','Build the Lead List','Find 10 local businesses (shops, salons, clinics, tutors, creators) with no website or only an Instagram page. Save name, WhatsApp or phone, and Instagram link in your lead sheet.'],
+  ['Tuesday','9:00–9:30 pm (30 min)','Research & Personalise','Pick 3 leads and note one clear gap for each (no site, no order button, slow page). Write a short personal message for each one.'],
+  ['Wednesday','9:00–9:30 pm (30 min)','Outreach Day','Send 5 polite WhatsApp or Instagram messages with your 48-hour website offer and a portfolio link. Log each one in the lead sheet.'],
+  ['Thursday','9:00–9:30 pm (30 min)','Follow-ups & Replies','Reply to every answer, follow up on messages with no reply, and book calls or meetings. Update each lead status (new, contacted, interested, closed).'],
+  ['Friday','8:50–9:35 pm (45 min)','Proof & Visibility','Post one portfolio piece, before and after, or short demo on the webhut page. Send 5 more outreach messages.'],
+  ['Saturday','2:30–4:00 pm (1 h 30 min)','Local Push & Demo Sprint','Call or visit 5 nearby businesses, and build a quick homepage mockup for your best lead. Send it with a short note and a clear price.'],
+  ['Sunday','2:00–4:00 pm (2 hrs)','Pipeline Review & Proposals','Count messages sent, replies, calls and closed deals. Write proposals or invoices, set next week’s targets, and log any income toward your MacBook, PC or iPhone goal.']
+];
+const QURAN_PLAN=[
+  ['Monday','8:45–9:00 pm (15 min)','Surah Yaseen','After Isha, in a quiet spot with your phone out of the room.'],
+  ['Tuesday','8:45–9:00 pm (15 min)','Surah Al-Waqiah','After Isha. Read slowly and with attention.'],
+  ['Wednesday','8:45–9:00 pm (15 min)','Surah Al-Mulk','After Isha, a calm block before the final study session.'],
+  ['Thursday','8:45–9:00 pm (15 min)','Surah Ar-Rahman','After Isha. Read at a steady pace.'],
+  ['Friday','8:30–8:50 pm (20 min)','Surah Al-Kahf','After Isha, your Jumu’ah recitation.'],
+  ['Saturday','8:45–9:00 pm (15 min)','Surah Yaseen','After Isha.'],
+  ['Sunday','8:30–9:00 pm (30 min)','Surah Al-Waqiah and Surah Ar-Rahman','After Isha, a longer block before the weekly review.']
 ];
 
 const NM={mac:'MacBook',pc:'Custom PC',iph:'iPhone Pro Max',gen:'General'};
@@ -1380,9 +1389,9 @@ function goalsAuto(){
   days30.forEach(k=>{all+=sc(k)||0});
   const denom=Math.max(1,days30.length);
   return [
-    ['Stronger faith and character',rate(['fajr','pray','quran']),'Fajr, other prayers and Quran, active 30-day window'],
+    ['Stronger faith and character',rate(['fajr','pray','quran']),'Fajr in the mosque, other prayers and Quran block, active 30-day window'],
     ['Face and physique',rate(['work','skin','sl']),'Workout, skincare and sleep, active 30-day window'],
-    ['Webhut consistency',rate(['wh']),'Daily webhut work blocks completed'],
+    ['Webhut marketing consistency',rate(['wh']),'Marketing and client-search blocks completed'],
     ['MacBook',cl(saved('mac')/T.mac),'Saved '+fm(saved('mac'))+' of '+fm(T.mac)],
     ['Custom PC',cl(saved('pc')/T.pc),'Saved '+fm(saved('pc'))+' of '+fm(T.pc)],
     ['iPhone Pro Max',cl(saved('iph')/T.iph),'Saved '+fm(saved('iph'))+' of '+fm(T.iph)],
@@ -1575,7 +1584,7 @@ function rPlan(){
   let banner='<div class="card" style="background:var(--acc-soft);border-color:var(--acc-ln)">'+
     '<h2><span>⏱️ '+(skipToday?'Tomorrow’s Starting Routine':'Live Routine Guide')+' · '+tdSch[0]+'</span><span class="badge-light">'+(skipToday?'Starts Tomorrow 5:00 am':'Active Schedule')+'</span></h2>'+
     '<div class="kpi">'+
-      '<div style="background:var(--card);text-align:left"><span class="sub">'+(skipToday?'FIRST BLOCK TOMORROW':'ACTIVE BLOCK NOW')+'</span><b style="font-size:16px;margin-top:3px">'+(nowBlock?nowBlock[0]+' — '+nowBlock[1]:'5:00 — Wake, wudu, Fajr')+'</b></div>'+
+      '<div style="background:var(--card);text-align:left"><span class="sub">'+(skipToday?'FIRST BLOCK TOMORROW':'ACTIVE BLOCK NOW')+'</span><b style="font-size:16px;margin-top:3px">'+(nowBlock?nowBlock[0]+' — '+nowBlock[1]:'5:00 — Wake, wudu, get ready')+'</b></div>'+
       '<div style="background:var(--card);text-align:left"><span class="sub">FOLLOWING BLOCK</span><b style="font-size:16px;margin-top:3px;color:var(--ink)">'+(nextBlock?nextBlock[0]+' — '+nextBlock[1]:'5:20 — Quran and dhikr')+'</b></div>'+
       '<div style="background:var(--card);text-align:left"><span class="sub">BLOCK FOCUS TIMER</span>'+
         '<div class="row" style="margin-top:4px">'+
@@ -1658,11 +1667,12 @@ function rPlans(){
   const dayLabel=skipToday?'Tomorrow ('+STUDY_PLAN[dayIdx][0]+')':'Today ('+STUDY_PLAN[dayIdx][0]+')';
 
   let nav='<div class="row" style="margin-bottom:14px">'+
-    '<button type="button" class="cat-pill'+(subPlanTab==='all'?' on':'')+'" data-spt="all">All 4 Plans</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='all'?' on':'')+'" data-spt="all">All 5 Plans</button>'+
     '<button type="button" class="cat-pill'+(subPlanTab==='workout'?' on':'')+'" data-spt="workout">1. Workout Plan (Mon–Sat)</button>'+
     '<button type="button" class="cat-pill'+(subPlanTab==='study'?' on':'')+'" data-spt="study">2. Study Plan (Mon–Sun)</button>'+
     '<button type="button" class="cat-pill'+(subPlanTab==='face'?' on':'')+'" data-spt="face">3. Facecare Plan (₹0)</button>'+
-    '<button type="button" class="cat-pill'+(subPlanTab==='webhut'?' on':'')+'" data-spt="webhut">4. Webhut Work Plan</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='webhut'?' on':'')+'" data-spt="webhut">4. Webhut Marketing Plan</button>'+
+    '<button type="button" class="cat-pill'+(subPlanTab==='quran'?' on':'')+'" data-spt="quran">5. Quran Plan</button>'+
     '<span class="badge-light" style="margin-left:auto">Started '+activeStart()+'</span>'+
   '</div>';
 
@@ -1741,7 +1751,8 @@ function rPlans(){
   let secWebhut='';
   if(subPlanTab==='all'||subPlanTab==='webhut'){
     secWebhut='<div class="card">'+
-      '<h2><span>4. Webhut Work Plan (Student Schedule · 6.5 Hours/Week)</span><span class="badge-light">Consistent Output</span></h2>'+
+      '<h2><span>4. Webhut Marketing & Client Plan (6.25 Hours/Week)</span><span class="badge-light">Find Clients</span></h2>'+
+      '<div class="sub" style="margin:0 0 8px">Weekly targets: 25 outreach messages, 5 replies, 2 calls or meetings, 1 closed client. Keep a lead sheet and update it daily.</div>'+
       '<div class="scroll"><table class="sh2"><thead><tr><th style="width:110px;text-align:left">Day</th><th style="width:155px">Routine Slot</th><th style="width:190px;text-align:left">Focus Theme</th><th style="text-align:left">Action Deliverable</th></tr></thead><tbody>'+
       WEBHUT_PLAN.filter(w=>matchSearch(w[0])||matchSearch(w[2])||matchSearch(w[3])).map((w,i)=>{
         const isAct=i===dayIdx;
@@ -1756,7 +1767,26 @@ function rPlans(){
     '</div>';
   }
 
-  return nav+secWorkout+secStudy+secFace+secWebhut;
+  // Section 5: Quran Plan
+  let secQuran='';
+  if(subPlanTab==='all'||subPlanTab==='quran'){
+    secQuran='<div class="card">'+
+      '<h2><span>5. Quran Plan (After Isha)</span><span class="badge-light">Daily Block</span></h2>'+
+      '<div class="scroll"><table class="sh2"><thead><tr><th style="width:110px;text-align:left">Day</th><th style="width:155px">Routine Slot</th><th style="width:230px;text-align:left">Surah</th><th style="text-align:left">Note</th></tr></thead><tbody>'+
+      QURAN_PLAN.filter(w=>matchSearch(w[0])||matchSearch(w[2])||matchSearch(w[3])).map((w,i)=>{
+        const isAct=i===dayIdx;
+        return '<tr class="'+(isAct?'now-row':'')+'">'+
+          '<td>'+w[0]+(isAct?' <span class="badge-warn" style="font-size:10px">'+(skipToday?'Tomorrow':'Today')+'</span>':'')+'</td>'+
+          '<td class="n" style="text-align:center">'+w[1]+'</td>'+
+          '<td><b>'+w[2]+'</b></td>'+
+          '<td class="b" style="color:var(--ink-soft)">'+w[3]+'</td>'+
+        '</tr>';
+      }).join('')+
+      '</tbody></table></div>'+
+    '</div>';
+  }
+
+  return nav+secWorkout+secStudy+secFace+secWebhut+secQuran;
 }
 
 function rGoals(){
